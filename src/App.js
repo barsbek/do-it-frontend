@@ -32,12 +32,13 @@ class App extends Component {
 
   render() {
     return [
-        <Register changeNotice={this.onNoticeChange}/>,
-        <Snackbar
-          open={this.state.snackBar}
-          message={this.state.notice}
-          autoHideDuration={2000}
-          onRequestClose={this.handleRequestClose} />
+      <Register key="register"
+        changeNotice={this.onNoticeChange}/>,
+      <Snackbar key="snack"
+        open={this.state.snackBar}
+        message={this.state.notice}
+        autoHideDuration={2000}
+        onRequestClose={this.handleRequestClose} />
     ];
   }
 }
