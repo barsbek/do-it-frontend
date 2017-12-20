@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Register from './user/Register';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      notice: ''
+    };
+
+    this.onNoticeChange = this.onNoticeChange.bind(this);
+  }
+
+  onNoticeChange(notice) {
+    this.setState({
+      notice: notice
+    })
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <div className="notice">
+          {this.state.notice}
+        </div>
+        <Register changeNotice={this.onNoticeChange}/>
       </div>
     );
   }
