@@ -1,31 +1,44 @@
 import React, { Component } from 'react';
+import Snackbar from 'material-ui/Snackbar'
+
 import Register from './user/Register';
+
+import './App.css';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      notice: ''
+      notice: '',
+      snackBar: false
     };
 
     this.onNoticeChange = this.onNoticeChange.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
   }
 
   onNoticeChange(notice) {
     this.setState({
-      notice: notice
+      notice: notice,
+      snackBar: true
+    })
+  }
+
+  handleRequestClose() {
+    this.setState({
+      snackBar: false
     })
   }
 
   render() {
-    return (
-      <div>
-        <div className="notice">
-          {this.state.notice}
-        </div>
-        <Register changeNotice={this.onNoticeChange}/>
-      </div>
-    );
+    return [
+        <Register changeNotice={this.onNoticeChange}/>,
+        <Snackbar
+          open={this.state.snackBar}
+          message={this.state.notice}
+          autoHideDuration={2000}
+          onRequestClose={this.handleRequestClose} />
+    ];
   }
 }
 

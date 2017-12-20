@@ -1,0 +1,15 @@
+.register-form {
+  align-self: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.register-form-fields {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.register-form-actions {
+  text-align: center;
+}

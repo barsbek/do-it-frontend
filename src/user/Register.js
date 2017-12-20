@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import update from 'immutability-helper';
 
-import Field from './Field';
+import TextField from 'material-ui/TextField'; 
+import RaisedButton from 'material-ui/RaisedButton';
+import Snackbar from 'material-ui/Snackbar';
+
+import './Register.css';
 
 class Register extends Component {
   constructor(props) {
@@ -39,10 +43,10 @@ class Register extends Component {
       this.props.changeNotice("created User");
     })
     .catch(error => {
-      this.props.changeNotice("Couldn't create user");
-      
       if(error.response && error.response.data) {
         this.setErrorMessages(error.response.data);
+      } else {
+        this.props.changeNotice("Couldn't create user");
       }
     });
   }
@@ -55,25 +59,31 @@ class Register extends Component {
     this.setState({errors: newErrors});
   }
 
-  render() {
-
-    const formFields = Object.keys(this.labels).map(name => (
-      <Field name={name}
+  formFields() {
+    return Object.keys(this.labels).map(name => (
+      <TextField
+        name={name}
         key={name}
-        placeholder={this.labels[name]}
+        floatingLabelText={this.labels[name]}
         value={this.state.values[name]}
         onChange={this.handleInputChange}
-        error={this.state.errors[name]} />
+        errorText={this.state.errors[name]} />
     ));
+  }
 
+  render() {
     return (
       <form className="register-form"
           url={this.url}
           method={this.props.method || 'POST'}
           onSubmit={this.handleSubmit} >
-        {formFields}
+        <div className="register-form-fields">
+          {this.formFields()}
+        </div>
         <div className="register-form-actions">
-          <input type="submit" value="Register" />
+          <RaisedButton
+            label="Register"
+            type="submit" />
         </div>
       </form>
     )
