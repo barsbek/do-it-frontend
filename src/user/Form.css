@@ -1,15 +1,15 @@
-.register-form {
+.user-form {
   align-self: center;
   margin-left: auto;
   margin-right: auto;
 }
 
-.register-form-fields {
+.user-form-fields {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 }
 
-.register-form-actions {
+.user-form-actions {
   text-align: center;
 }
