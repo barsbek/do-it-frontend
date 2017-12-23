@@ -10,7 +10,7 @@ const Register = props => (
       password_confirmation: "Password confirmation"
     }}
     button="Register"
-    url="users"
+    url="/api/users"
     changeNotice={props.changeNotice} />
 );
 

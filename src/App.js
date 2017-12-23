@@ -39,7 +39,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    axios.get('users')
+    axios.get('/api/users')
     .then(res => {
       this.setState({ user: res.data.user, isAuthenticated: !!res.data.user });
     })

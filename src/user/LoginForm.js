@@ -6,7 +6,7 @@ const LoginForm = props => (
   <Form
     labels={{ email: "Email *", password: "Password *" }}
     button="Authenticate"
-    url="login"
+    url="/api/login"
     onSuccess={props.onSuccess}
     changeNotice={props.changeNotice} />
 )
