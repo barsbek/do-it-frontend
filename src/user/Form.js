@@ -26,7 +26,7 @@ class Form extends Component {
 
   handleInputChange(e) {
     const values = update(this.state.values,
-      {[e.target.name]: {$set: e.target.value}});
+      {[e.target.name]: { $set: e.target.value }});
     this.setState({ values: values });
   }
 
@@ -34,10 +34,12 @@ class Form extends Component {
     e.preventDefault();
     axios.post(this.props.url, {user: this.state.values})
     .then(res => {
-      this.setState( {values: this.fields, errors: this.fields} );
+      this.setState({ values: this.fields, errors: this.fields });
       this.props.changeNotice(res.data.message);
+      if(this.props.onSuccess) this.props.onSuccess(res);
     })
     .catch(error => {
+      if(this.props.onFailure) this.props.onFailure(error);
       if(error.response && (typeof error.response.data === 'object')) {
         const data = error.response.data;
         this.setErrorMessages(data);
