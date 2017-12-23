@@ -7,7 +7,6 @@ import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import CircularProgress from 'material-ui/CircularProgress';
 
 import Register from './user/Register';
 import LoginForm from './user/LoginForm';
@@ -15,6 +14,7 @@ import UserInfo from './user/UserInfo';
 import Logout from './user/Logout';
 import NoMatch from './NoMatch';
 import Private from './Private';
+import LoadingAnimation from './common/LoadingAnimation';
 
 import './App.css';
 
@@ -81,6 +81,7 @@ class App extends Component {
     return (
       <Router>
         <div className="app">
+          <LoadingAnimation loading={this.state.loading} />
           <Private isAuthenticated={this.state.isAuthenticated}
             loading={this.state.loading}>
             <AppBar title="title"
