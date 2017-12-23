@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import update from 'immutability-helper';
+import { withRouter } from 'react-router-dom';
+import url from 'url';
 
 import TextField from 'material-ui/TextField'; 
 import RaisedButton from 'material-ui/RaisedButton';
@@ -37,6 +39,10 @@ class Form extends Component {
       this.setState({ values: this.fields, errors: this.fields });
       this.props.changeNotice(res.data.message);
       if(this.props.onSuccess) this.props.onSuccess(res);
+      if(res.headers.location) {
+        const redirectTo = url.parse(res.headers.location);
+        this.props.history.push(redirectTo.pathname);
+      }
     })
     .catch(error => {
       if(this.props.onFailure) this.props.onFailure(error);
@@ -89,4 +95,4 @@ class Form extends Component {
   }
 }
 
-export default Form;
+export default withRouter(Form);

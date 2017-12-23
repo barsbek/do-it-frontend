@@ -38,10 +38,7 @@ class App extends Component {
   componentWillMount() {
     axios.get('users')
     .then(res => {
-      this.setState({
-        user: res.data.user,
-        isAuthenticated: !!res.data.user
-      });
+      this.setState({ user: res.data.user, isAuthenticated: !!res.data.user });
     })
     .catch(err => {
       if(err.response && (typeof err.response.data === 'object')) {
