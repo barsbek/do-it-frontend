@@ -73,7 +73,7 @@ class App extends Component {
             <AppBar title="title"
               onLeftIconButtonClick={this.handleDrawerToggle} />
             <Drawer open={this.state.drawerOpen}>
-              <UserInfo user={this.state.user} />}
+              <UserInfo user={this.state.user} />
             </Drawer>
           </Private>
           <Switch>
