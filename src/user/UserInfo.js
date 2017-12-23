@@ -6,7 +6,6 @@ const UserInfo = (props) => (
   <CardHeader
     title={props.user.name}
     subtitle={props.user.email}>
-    <Link to="/register">Log out</Link>
   </CardHeader>
 )
 

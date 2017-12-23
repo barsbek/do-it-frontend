@@ -12,6 +12,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import Register from './user/Register';
 import LoginForm from './user/LoginForm';
 import UserInfo from './user/UserInfo';
+import Logout from './user/Logout';
 import NoMatch from './NoMatch';
 import Private from './Private';
 
@@ -29,10 +30,12 @@ class App extends Component {
       isAuthenticated: false,
       loading: true
     };
+
     this.handleNoticeChange = this.handleNoticeChange.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   componentWillMount() {
@@ -69,6 +72,11 @@ class App extends Component {
     this.setState({ user: res.data.user, isAuthenticated: true })
   }
 
+  handleLogout(res) {
+    this.handleNoticeChange(res.data.message);
+    this.setState({ user: null, isAuthenticated: false });
+  }
+
   render() {
     return (
       <Router>
@@ -76,7 +84,12 @@ class App extends Component {
           <Private isAuthenticated={this.state.isAuthenticated}
             loading={this.state.loading}>
             <AppBar title="title"
-              onLeftIconButtonClick={this.handleDrawerToggle} />
+              onLeftIconButtonClick={this.handleDrawerToggle}
+              iconElementRight={
+                <Logout onLogout={this.handleLogout}
+                  changeNotice={this.handleNoticeChange} />
+              }
+            />
             <Drawer open={this.state.drawerOpen}>
               <UserInfo user={this.state.user} />
             </Drawer>
