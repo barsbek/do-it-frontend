@@ -96,11 +96,13 @@ class App extends Component {
             </Drawer>
           </Private>
           <Switch>
-            <Route exact path="/login"
-              render={() => <LoginForm onSuccess={this.handleLogin} changeNotice={this.handleNoticeChange}/>}/>
-            <Route exact path="/register"
-              render={() => <Register changeNotice={this.handleNoticeChange}/>}/>
-            <Route component={NoMatch} />
+            <div className="app-content">
+              <Route exact path="/login"
+                render={() => <LoginForm onSuccess={this.handleLogin} changeNotice={this.handleNoticeChange}/>}/>
+              <Route exact path="/register"
+                render={() => <Register changeNotice={this.handleNoticeChange}/>}/>
+              {/* <Route component={NoMatch} /> */}
+            </div>
           </Switch>
           <Snackbar key="snack"
             open={this.state.snackBarOpen}

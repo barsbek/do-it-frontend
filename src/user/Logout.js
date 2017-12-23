@@ -21,7 +21,8 @@ class Logout extends Component {
     })
   }
   render() {
-    return <FlatButton onClick={this.handleClick} label="Log out" />
+    return <FlatButton onClick={this.handleClick} label="Log out"
+      style={{color: '#fff', marginTop: '6px'}} />
   }
 }
 
