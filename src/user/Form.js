@@ -45,7 +45,7 @@ class Form extends Component {
         this.setErrorMessages(data);
         if(data.message) this.props.changeNotice(data.message);
       } else {
-        this.props.changeNotice("Something went wrong");
+        this.props.changeNotice("Something went wrong, try again later");
       }
     });
   }

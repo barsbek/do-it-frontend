@@ -26,7 +26,8 @@ class App extends Component {
       snackBarOpen: false,
       drawerOpen: false,
       user: null,
-      isAuthenticated: false
+      isAuthenticated: false,
+      loading: true
     };
     this.handleNoticeChange = this.handleNoticeChange.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
@@ -37,7 +38,10 @@ class App extends Component {
   componentWillMount() {
     axios.get('users')
     .then(res => {
-      this.setState({ user: res.data.user, isAuthenticated: !!res.data.user });
+      this.setState({
+        user: res.data.user,
+        isAuthenticated: !!res.data.user
+      });
     })
     .catch(err => {
       if(err.response && (typeof err.response.data === 'object')) {
@@ -46,6 +50,9 @@ class App extends Component {
       } else {
         this.handleNoticeChange("Something went wrong");
       }
+    })
+    .then(() => {
+      this.setState({ loading: false });
     })
   }
 
@@ -69,7 +76,8 @@ class App extends Component {
     return (
       <Router>
         <div className="app">
-          <Private isAuthenticated={this.state.isAuthenticated}>
+          <Private isAuthenticated={this.state.isAuthenticated}
+            loading={this.state.loading}>
             <AppBar title="title"
               onLeftIconButtonClick={this.handleDrawerToggle} />
             <Drawer open={this.state.drawerOpen}>

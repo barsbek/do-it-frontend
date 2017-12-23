@@ -6,7 +6,7 @@ const Private = (props) => {
   if(props.isAuthenticated) {
     return props.children;
   }
-  if(!inLoginPage){
+  if(!inLoginPage && !props.loading){
     return <Redirect to="/login" />;
   }
   return null;
