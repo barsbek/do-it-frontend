@@ -35,11 +35,13 @@ class Form extends Component {
     axios.post(this.props.url, {user: this.state.values})
     .then(res => {
       this.setState( {values: this.fields, errors: this.fields} );
-      this.props.changeNotice(res.statusText);
+      this.props.changeNotice(res.data.message);
     })
     .catch(error => {
-      if(error.response && (typeof error.response.data == 'object')) {
-        this.setErrorMessages(error.response.data);
+      if(error.response && (typeof error.response.data === 'object')) {
+        const data = error.response.data;
+        this.setErrorMessages(data);
+        if(data.message) this.props.changeNotice(data.message);
       } else {
         this.props.changeNotice("Something went wrong");
       }
