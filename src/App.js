@@ -12,9 +12,12 @@ import Register from './user/Register';
 import LoginForm from './user/LoginForm';
 import UserInfo from './user/UserInfo';
 import Logout from './user/Logout';
+
 import NoMatch from './NoMatch';
 import Private from './Private';
 import LoadingAnimation from './common/LoadingAnimation';
+
+import Collections from './collections';
 
 import './App.css';
 
@@ -24,11 +27,13 @@ class App extends Component {
 
     this.state = {
       notice: '',
+      
       snackBarOpen: false,
       drawerOpen: false,
-      user: null,
       isAuthenticated: false,
-      loading: true
+      loading: true,
+      
+      user: null, collections: []
     };
 
     this.handleNoticeChange = this.handleNoticeChange.bind(this);
@@ -39,9 +44,13 @@ class App extends Component {
   }
 
   componentWillMount() {
-    axios.get('/api/users')
+    axios.get('/api/collections')
     .then(res => {
-      this.setState({ user: res.data.user, isAuthenticated: !!res.data.user });
+      this.setState({
+        user: res.data.user,
+        isAuthenticated: !!res.data.user,
+        collections: res.data.collections
+      });
     })
     .catch(err => {
       if(err.response && (typeof err.response.data === 'object')) {
@@ -93,17 +102,17 @@ class App extends Component {
             />
             <Drawer open={this.state.drawerOpen}>
               <UserInfo user={this.state.user} />
+              <Collections list={this.state.collections} />
             </Drawer>
           </Private>
-          <Switch>
-            <div className="app-content">
+          <div className="app-content">
+            <Switch>
               <Route exact path="/login"
                 render={() => <LoginForm onSuccess={this.handleLogin} changeNotice={this.handleNoticeChange}/>}/>
               <Route exact path="/register"
                 render={() => <Register changeNotice={this.handleNoticeChange}/>}/>
-              {/* <Route component={NoMatch} /> */}
-            </div>
-          </Switch>
+            </Switch>
+          </div>
           <Snackbar key="snack"
             open={this.state.snackBarOpen}
             message={this.state.notice}
