@@ -6,7 +6,7 @@ import './LoadingAnimation.css';
 
 const LoadingAnimation = props => (
   props.loading &&
-  <div class="loading-animation">
+  <div className="loading-animation">
     <CircularProgress />
   </div>
 )
