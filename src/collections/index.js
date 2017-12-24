@@ -9,7 +9,6 @@ class Collections extends Component {
         primaryText={collection.title}
         secondaryText={collection.finish_at} />
     ))
-    console.log(this.props.list);
     return (
       <List>{collections}</List>
     )
