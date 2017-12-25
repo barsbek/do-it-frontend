@@ -14,7 +14,7 @@ import UserInfo from './user/UserInfo';
 import Logout from './user/Logout';
 
 import NoMatch from './NoMatch';
-import Private from './Private';
+import Private from './common/Private';
 import LoadingAnimation from './common/LoadingAnimation';
 
 import Collections from './components/Collections';
