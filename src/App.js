@@ -123,7 +123,9 @@ class App extends Component {
             />
             <Drawer 
               open={this.state.drawerOpen} 
-              docked={false}>
+              docked={false}
+              onRequestChange={drawerOpen => this.setState({ drawerOpen })}
+            >
               <UserInfo user={this.state.user} />
               <Collections onFailure={this.notifyAboutError} />
             </Drawer>
