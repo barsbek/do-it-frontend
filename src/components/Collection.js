@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
-import Paper from 'material-ui/Paper';
-import Subheader from 'material-ui/Subheader';
-import TextField from 'material-ui/TextField';
-
 import TitleTextField from './TitleTextField';
+import List from './List';
 
 import './Collection.css';
 
@@ -54,23 +51,12 @@ class Collection extends Component {
 
   render() {
     const lists = this.state.lists.map(item => (
-      <Paper key={item.id} zDepth={1} className="collection-list">
-        <Subheader style={{ paddingLeft: 0 }} >         
-          <TitleTextField
-            value={item.title}
-            onChangeFinish={this.triggerTitleChange}
-            onFocus={(e) => this.handleTitleFocus(item.id)} 
-          />
-        </Subheader>
-
-        <TextField
-          fullWidth={true}
-          inputStyle={{ paddingLeft: 10 }}
-          hintStyle={{ textAlign: 'center', width: '100%' }}
-          underlineStyle={{ bottom: 0 }}
-          className="collection-new-task"
-          hintText="+" />
-      </Paper>
+      <List
+        key={item.id} 
+        title={item.title}
+        onChangeFinish={this.triggerTitleChange}
+        onTitleFocus={() => this.handleTitleFocus(item.id)}
+      />
     ));
     return (
       <div className="collection">
