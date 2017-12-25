@@ -14,6 +14,7 @@ import UserInfo from './user/UserInfo';
 import Logout from './user/Logout';
 
 import Private from './common/Private';
+import PrivateRoute from './common/PrivateRoute';
 import LoadingAnimation from './common/LoadingAnimation';
 
 import Collections from './components/Collections';
@@ -35,7 +36,8 @@ class App extends Component {
       // loading information in every component
       loading: true,
       
-      user: null, collections: []
+      user: null,
+      collections: []
     };
 
     this.handleNoticeChange = this.handleNoticeChange.bind(this);
@@ -43,6 +45,7 @@ class App extends Component {
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+
     this.closeLoading = this.closeLoading.bind(this);
     this.notifyAboutSuccess = this.notifyAboutSuccess.bind(this);
     this.notifyAboutError = this.notifyAboutError.bind(this);
@@ -99,7 +102,7 @@ class App extends Component {
   }
 
   closeLoading() {
-    this.setState({ loading: false })
+    this.setState({ loading: false });
   }
 
   render() {
@@ -139,12 +142,12 @@ class App extends Component {
                   onFailure={this.notifyAboutError}
                 />
               }/>
-              <Route path="/collections/:id" render={() =>
+              <PrivateRoute
+                path="/collections/:id"
+                loading={this.state.loading}
+                isAuthenticated={this.state.isAuthenticated} >
                 <Collection onFailure={this.notifyAboutError} />
-              }/>
-              <Router path="/lists/:id" render={() => 
-                <List onFailure={this.notifyAboutError} />
-              }/>
+              </PrivateRoute>
             </Switch>
           </div>
           <Snackbar
