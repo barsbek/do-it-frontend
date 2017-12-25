@@ -11,17 +11,9 @@ const style = {
 }
 
 class NewListButton extends Component {
-  handleClick() {
-    axios.post('/api/lists')
-    .then(res => {
-      
-    })
-    .catch(err => {});
-  }
-
   render() {
     return (   
-      <FloatingActionButton onClick={this.handleClick}
+      <FloatingActionButton onClick={this.props.onClick}
         mini={true} style={style}>
         <ContentAdd />
       </FloatingActionButton>

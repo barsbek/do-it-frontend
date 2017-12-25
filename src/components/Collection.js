@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
+import update from 'immutability-helper';
 
 import TitleTextField from './TitleTextField';
 import List from './List';
+import NewListButton from './NewListButton';
 
 import './Collection.css';
 
@@ -13,10 +15,12 @@ class Collection extends Component {
     this.state = {
       collection: null,
       lists: [],
-      listID: null
+      listID: null,
+      tempNewList: false
     }
     this.handleTitleFocus = this.handleTitleFocus.bind(this);
     this.triggerTitleChange = this.triggerTitleChange.bind(this);
+    this.addTempNewList = this.addTempNewList.bind(this);
   }
 
   componentWillMount() {
@@ -49,10 +53,19 @@ class Collection extends Component {
     this.setState({ listID });
   }
 
+  addTempNewList() {
+    if(!this.state.tempNewList) {
+      this.setState(update(this.state, {
+        lists: {$push: [{title: ''}]},
+        tempNewList: {$set: true}
+      }))
+    }
+  }
+
   render() {
     const lists = this.state.lists.map(item => (
       <List
-        key={item.id} 
+        key={item.id || "new"} 
         title={item.title}
         onChangeFinish={this.triggerTitleChange}
         onTitleFocus={() => this.handleTitleFocus(item.id)}
@@ -60,7 +73,10 @@ class Collection extends Component {
     ));
     return (
       <div className="collection">
-        {lists}
+        <div className="collection-lists">
+          {lists}
+        </div>
+        <NewListButton onClick={this.addTempNewList}/>
       </div>
     );
   }
