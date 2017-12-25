@@ -156,6 +156,7 @@ class App extends Component {
             autoHideDuration={2000}
             onRequestClose={this.handleRequestClose}
           />
+          <NewListButton />
         </div>
       </Router>
     )
