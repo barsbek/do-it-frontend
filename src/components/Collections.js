@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { List, ListItem } from 'material-ui/List';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 class Collections extends Component {
@@ -17,17 +17,20 @@ class Collections extends Component {
     .catch(err => this.props.notifyErrorResponse(err))
   }
 
+  handleItemClick(id) {
+    this.props.history.push(`/collections/${id}`)
+  }
+
   render() {
-    const collections = this.state.list.map(collection => (
-      <ListItem key={collection.id}>
-        <Link to={`/collections/${collection.id}`} >
-          {collection.title}
-        </Link>
-      </ListItem>
+    const collections = this.state.list.map(c => (
+      <ListItem key={c.id}
+        primaryText={c.title}
+        secondaryText={c.finish_at}
+        onClick={() => this.handleItemClick(c.id)} />
     ));
 
     return ( <List>{collections}</List> )
   }
 }
 
-export default Collections;
+export default withRouter(Collections);
