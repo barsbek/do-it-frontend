@@ -67,10 +67,10 @@ class App extends Component {
 
   notifyAboutError(err) {
     if(err.response && (typeof err.response.data === 'object')) {
-      this.handleNoticeChange(err.response.data.message);
-    } else {
-      this.handleNoticeChange("Something went wrong");
+      if(err.response.data.message) 
+        return this.handleNoticeChange(err.response.data.message);
     }
+    this.handleNoticeChange("Something went wrong");
   }
 
   notifyAboutSuccess(res) {
