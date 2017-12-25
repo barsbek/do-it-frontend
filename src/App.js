@@ -17,7 +17,8 @@ import NoMatch from './NoMatch';
 import Private from './Private';
 import LoadingAnimation from './common/LoadingAnimation';
 
-import Collections from './collections';
+import Collections from './components/Collections';
+import Collection from './components/Collection';
 
 import './App.css';
 
@@ -31,6 +32,7 @@ class App extends Component {
       snackBarOpen: false,
       drawerOpen: false,
       isAuthenticated: false,
+      // loading information in every component
       loading: true,
       
       user: null, collections: []
@@ -38,31 +40,39 @@ class App extends Component {
 
     this.handleNoticeChange = this.handleNoticeChange.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
-    this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
+    this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.closeLoading = this.closeLoading.bind(this);
+    this.notifyAboutSuccess = this.notifyAboutSuccess.bind(this);
+    this.notifyAboutError = this.notifyAboutError.bind(this);
   }
 
-  componentWillMount() {
-    axios.get('/api/collections')
+  componentDidMount() {
+    axios.get('/api/current_user')
     .then(res => {
+      // get from localStorage
       this.setState({
         user: res.data.user,
-        isAuthenticated: !!res.data.user,
-        collections: res.data.collections
-      });
+        isAuthenticated: !!res.data.user
+      })
     })
-    .catch(err => {
-      if(err.response && (typeof err.response.data === 'object')) {
-        const data = err.response.data;
-        if(data.message) this.handleNoticeChange(data.message);
-      } else {
-        this.handleNoticeChange("Something went wrong");
-      }
-    })
-    .then(() => {
-      this.setState({ loading: false });
-    })
+    .catch(err => this.notifyAboutError(err))
+    .then(() => this.closeLoading())
+  }
+
+  notifyAboutError(err) {
+    if(err.response && (typeof err.response.data === 'object')) {
+      this.handleNoticeChange(err.response.data.message);
+    } else {
+      this.handleNoticeChange("Something went wrong");
+    }
+  }
+
+  notifyAboutSuccess(res) {
+    if(typeof res.data === 'object') {
+      this.handleNoticeChange(res.data.message);
+    }
   }
 
   handleNoticeChange(notice) {
@@ -73,17 +83,22 @@ class App extends Component {
     this.setState({ snackBarOpen: false })
   }
 
-  handleDrawerToggle() {
-    this.setState({ drawerOpen: !this.state.drawerOpen })
+  handleDrawerOpen() {
+    this.setState({ drawerOpen: true })
   }
 
   handleLogin(res) {
     this.setState({ user: res.data.user, isAuthenticated: true })
+    this.handleNoticeChange(res.data.message);
   }
 
   handleLogout(res) {
-    this.handleNoticeChange(res.data.message);
     this.setState({ user: null, isAuthenticated: false });
+    this.handleNoticeChange(res.data.message);
+  }
+
+  closeLoading() {
+    this.setState({ loading: false })
   }
 
   render() {
@@ -94,23 +109,31 @@ class App extends Component {
           <Private isAuthenticated={this.state.isAuthenticated}
             loading={this.state.loading}>
             <AppBar title="title"
-              onLeftIconButtonClick={this.handleDrawerToggle}
+              onLeftIconButtonClick={this.handleDrawerOpen}
               iconElementRight={
-                <Logout onLogout={this.handleLogout}
-                  changeNotice={this.handleNoticeChange} />
+                <Logout
+                  onLogout={this.handleLogout}
+                  onFailure={this.notifyAboutError} />
               }
             />
             <Drawer open={this.state.drawerOpen}>
               <UserInfo user={this.state.user} />
-              <Collections list={this.state.collections} />
+              <Collections onFailure={this.notifyAboutError} />
             </Drawer>
           </Private>
           <div className="app-content">
             <Switch>
-              <Route exact path="/login"
-                render={() => <LoginForm onSuccess={this.handleLogin} changeNotice={this.handleNoticeChange}/>}/>
-              <Route exact path="/register"
-                render={() => <Register changeNotice={this.handleNoticeChange}/>}/>
+              <Route exact path="/login" render={() =>
+                <LoginForm
+                  onSuccess={this.handleLogin}
+                  onFailure={this.notifyAboutError}/>
+              }/>
+              <Route exact path="/register" render={() =>
+                <Register
+                  onSuccess={this.notifyAboutSuccess}
+                  onFailure={this.notifyAboutError}/>
+              }/>
+              <Route exap path="/collections/:id" component={Collection} />
             </Switch>
           </div>
           <Snackbar key="snack"

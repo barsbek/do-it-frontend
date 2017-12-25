@@ -2,24 +2,30 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
+import url from 'url';
 
 class Logout extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleClick = this.handleClick.bind(this);
   }
+
   handleClick(e) {
-    const url = e.target.href;
-    axios.get("/api/logout")
+    axios.delete("/api/logout")
     .then(res => {
       this.props.onLogout(res);
-      if(res.headers.location)
-        this.props.history.push(res.headers.location);
+      if(res.headers) this.handleRedirect(res.headers.location);
     })
     .catch(err => {
-      this.props.changeNotice('Something went wrong');
+      if(this.props.onFailure) this.props.onFailure(err);
     })
   }
+
+  handleRedirect(toURL) {
+    const redirectTo = url.parse(toURL || '');
+    this.props.history.push(redirectTo.pathname);
+  }
+
   render() {
     return <FlatButton onClick={this.handleClick} label="Log out"
       style={{color: '#fff', marginTop: '6px'}} />

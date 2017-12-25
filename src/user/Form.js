@@ -37,23 +37,20 @@ class Form extends Component {
     axios.post(this.props.url, {user: this.state.values})
     .then(res => {
       this.setState({ values: this.fields, errors: this.fields });
-      this.props.changeNotice(res.data.message);
       if(this.props.onSuccess) this.props.onSuccess(res);
-      if(res.headers.location) {
-        const redirectTo = url.parse(res.headers.location);
-        this.props.history.push(redirectTo.pathname);
-      }
+      if(res.headers) this.handleRedirect(res.headers.location);
     })
     .catch(error => {
-      if(this.props.onFailure) this.props.onFailure(error);
       if(error.response && (typeof error.response.data === 'object')) {
-        const data = error.response.data;
-        this.setErrorMessages(data);
-        if(data.message) this.props.changeNotice(data.message);
-      } else {
-        this.props.changeNotice("Something went wrong, try again later");
+        this.setErrorMessages(error.response.data);
       }
+      if(this.props.onFailure) this.props.onFailure(error);
     });
+  }
+
+  handleRedirect(toURL) {
+    const redirectTo = url.parse(toURL || '');
+    this.props.history.push(redirectTo.pathname);
   }
 
   setErrorMessages(errors) {

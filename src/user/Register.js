@@ -11,7 +11,7 @@ const Register = props => (
     }}
     button="Register"
     url="/api/users"
-    changeNotice={props.changeNotice} />
+    {...props} />
 );
 
 export default Register;
