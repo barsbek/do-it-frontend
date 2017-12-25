@@ -18,9 +18,13 @@ class Collection extends Component {
       listID: null,
       tempNewList: false
     }
-    this.handleTitleFocus = this.handleTitleFocus.bind(this);
+
     this.triggerTitleChange = this.triggerTitleChange.bind(this);
+    this.updateRemoteList = this.updateRemoteList.bind(this);
+    this.updateLocalList = this.updateLocalList.bind(this);
+    this.handleListCreation = this.handleListCreation.bind(this);
     this.addTempNewList = this.addTempNewList.bind(this);
+    this.handleTitleFocus = this.handleTitleFocus.bind(this);
   }
 
   componentWillMount() {
@@ -37,16 +41,41 @@ class Collection extends Component {
       const lists = res.data.lists;
       this.setState({ collection, lists });
     })
-    .catch(err => this.props.onFailure(err))
+    .catch(this.props.onFailure);
   }
 
   triggerTitleChange(title) {
-    axios.put(`/api/lists/${this.state.listID}`, { title })
+    if(this.state.listID) {
+      this.updateRemoteList(this.state.listID, title);
+    } else {
+      const collection_id = this.state.collection.id;
+      axios.post(`/api/lists`, { title, collection_id })
+      .then(this.handleListCreation)
+      .catch(this.props.onFailure);
+      // remove or save to local storage on creation failure
+    }
+  }
+
+  updateRemoteList(listID, title) {
+    axios.put(`/api/lists/${listID}`, { title })
     .then(res => {
-      // update this.state.lists
-      console.log(res);
+      const index = this.state.lists.findIndex(x => x.id == this.state.listID);
+      if(index > -1) this.updateLocalList(index, res.data)
     })
-    .catch(err => this.props.onFailure(err));
+    .catch(this.props.onFailure);
+  }
+
+  updateLocalList(index, data) {
+    this.setState(update(this.state, {
+      lists: {[index]: {$set: data}}
+    }))
+  }
+
+  handleListCreation(res) {
+    const lists = this.state.lists;
+    const data = { id: res.data.id, title: res.data.title }
+    this.updateLocalList(lists.length - 1, data);
+    this.setState({ tempNewList: false });
   }
 
   handleTitleFocus(listID) {
