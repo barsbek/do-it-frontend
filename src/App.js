@@ -13,14 +13,12 @@ import LoginForm from './user/LoginForm';
 import UserInfo from './user/UserInfo';
 import Logout from './user/Logout';
 
-import NoMatch from './NoMatch';
 import Private from './common/Private';
 import LoadingAnimation from './common/LoadingAnimation';
 
 import Collections from './components/Collections';
 import Collection from './components/Collection';
 import List from './components/List';
-import NewListButton from './components/NewListButton';
 
 import './App.css';
 
@@ -156,7 +154,6 @@ class App extends Component {
             autoHideDuration={2000}
             onRequestClose={this.handleRequestClose}
           />
-          <NewListButton />
         </div>
       </Router>
     )
