@@ -19,6 +19,8 @@ import LoadingAnimation from './common/LoadingAnimation';
 
 import Collections from './components/Collections';
 import Collection from './components/Collection';
+import List from './components/List';
+import NewListButton from './components/NewListButton';
 
 import './App.css';
 
@@ -52,6 +54,7 @@ class App extends Component {
     axios.get('/api/current_user')
     .then(res => {
       // get from localStorage
+      // you should, probably, move token to localStorage
       this.setState({
         user: res.data.user,
         isAuthenticated: !!res.data.user
@@ -113,10 +116,13 @@ class App extends Component {
               iconElementRight={
                 <Logout
                   onLogout={this.handleLogout}
-                  onFailure={this.notifyAboutError} />
+                  onFailure={this.notifyAboutError}
+                />
               }
             />
-            <Drawer open={this.state.drawerOpen}>
+            <Drawer 
+              open={this.state.drawerOpen} 
+              docked={false}>
               <UserInfo user={this.state.user} />
               <Collections onFailure={this.notifyAboutError} />
             </Drawer>
@@ -126,21 +132,30 @@ class App extends Component {
               <Route exact path="/login" render={() =>
                 <LoginForm
                   onSuccess={this.handleLogin}
-                  onFailure={this.notifyAboutError}/>
+                  onFailure={this.notifyAboutError}
+                />
               }/>
               <Route exact path="/register" render={() =>
                 <Register
                   onSuccess={this.notifyAboutSuccess}
-                  onFailure={this.notifyAboutError}/>
+                  onFailure={this.notifyAboutError}
+                />
               }/>
-              <Route exap path="/collections/:id" component={Collection} />
+              <Route path="/collections/:id" render={() =>
+                <Collection onFailure={this.notifyAboutError} />
+              }/>
+              <Router path="/lists/:id" render={() => 
+                <List onFailure={this.notifyAboutError} />
+              }/>
             </Switch>
           </div>
-          <Snackbar key="snack"
+          <Snackbar
+            key="snack"
             open={this.state.snackBarOpen}
             message={this.state.notice}
             autoHideDuration={2000}
-            onRequestClose={this.handleRequestClose} />
+            onRequestClose={this.handleRequestClose}
+          />
         </div>
       </Router>
     )
