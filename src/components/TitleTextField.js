@@ -26,7 +26,10 @@ class TitleTextField extends Component {
   }
 
   handleKeyDown(e) {
-    if(e.keyCode == 13) this.props.onChangeFinish(e.target.value);
+    if(e.keyCode == 13) {
+      this.props.onChangeFinish(e.target.value);
+      clearTimeout(this.timer);
+    }
   }
 
   render() {
