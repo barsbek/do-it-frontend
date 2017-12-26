@@ -4,7 +4,7 @@ import Paper from 'material-ui/Paper';
 import Subheader from 'material-ui/Subheader';
 import TextField from 'material-ui/TextField';
 
-import TitleTextField from './TitleTextField';
+import InputWithDelay from './InputWithDelay';
 
 class List extends Component {
   render() {
