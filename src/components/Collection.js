@@ -14,16 +14,11 @@ class Collection extends Component {
     this.state = {
       collection: null,
       lists: [],
-      listID: null,
       tempNewList: false
     }
 
-    this.triggerTitleChange = this.triggerTitleChange.bind(this);
-    this.updateRemoteList = this.updateRemoteList.bind(this);
-    this.updateLocalList = this.updateLocalList.bind(this);
     this.handleListCreation = this.handleListCreation.bind(this);
-    this.addTempNewList = this.addTempNewList.bind(this);
-    this.handleTitleFocus = this.handleTitleFocus.bind(this);
+    this.addTempList = this.addTempList.bind(this);
   }
 
   componentWillMount() {
@@ -43,62 +38,31 @@ class Collection extends Component {
     .catch(this.props.onFailure);
   }
 
-  triggerTitleChange(title) {
-    if(this.state.listID) {
-      this.updateRemoteList(this.state.listID, title);
-    } else {
-      const collection_id = this.state.collection.id;
-      axios.post(`/api/lists`, { title, collection_id })
-      .then(this.handleListCreation)
-      .catch(this.props.onFailure);
-      // remove or save to local storage on creation failure
-    }
-  }
-
-  updateRemoteList(listID, title) {
-    axios.put(`/api/lists/${listID}`, { title })
-    .then(res => {
-      const index = this.state.lists.findIndex(x => x.id == this.state.listID);
-      if(index > -1) this.updateLocalList(index, res.data)
-    })
-    .catch(this.props.onFailure);
-  }
-
-  updateLocalList(index, data) {
+  handleListCreation(list) {
     this.setState(update(this.state, {
-      lists: {[index]: {$set: data}}
+      lists: {
+        [0]: { $set: list }
+      },
+      tempNewList: {$set: false}
     }))
   }
 
-  handleListCreation(res) {
-    const lists = this.state.lists;
-    const data = { id: res.data.id, title: res.data.title }
-    this.updateLocalList(lists.length - 1, data);
-    this.setState({ tempNewList: false });
-  }
-
-  handleTitleFocus(listID) {
-    this.setState({ listID });
-  }
-
-  addTempNewList() {
+  addTempList() {
     if(!this.state.tempNewList) {
       this.setState(update(this.state, {
-        lists: {$push: [{title: ''}]},
+        lists: {$unshift: [{title: ''}]},
         tempNewList: {$set: true}
       }))
     }
   }
 
-
   render() {
     const lists = this.state.lists.map(item => (
       <List
-        key={item.id || "new"} 
-        id={item.id}
-        title={item.title}
-        onTitleChange={this.triggerTitleChange}
-        onTitleFocus={() => this.handleTitleFocus(item.id)}
+        key={item.id || "new"}
+        list={item}
+        collection={this.state.collection}
+        updateCollection={this.handleListCreation}
       />
     ));
     return (
@@ -106,7 +70,7 @@ class Collection extends Component {
         <div className="collection-lists">
           {lists}
         </div>
-        <NewListButton onClick={this.addTempNewList}/>
+        <NewListButton onClick={this.addTempList}/>
       </div>
     );
   }
