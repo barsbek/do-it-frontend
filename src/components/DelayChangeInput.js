@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import TextField from 'material-ui/TextField';
 
-class TitleTextField extends Component {
+class DelayChangeInput extends Component {
   constructor(props) {
     super(props);
     this.state = { value: props.value }
+    this.delay = this.props.delay || 600;
 
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    
   }
 
   componentWillMount() {
@@ -21,13 +21,13 @@ class TitleTextField extends Component {
     clearTimeout(this.timer);
     this.setState({ value })
     this.timer = setTimeout(
-      () => this.props.onChangeFinish(value),
-    600);
+      () => this.props.onChange(value),
+    this.delay);
   }
 
   handleKeyDown(e) {
     if(e.keyCode == 13) {
-      this.props.onChangeFinish(e.target.value);
+      this.props.onChange(e.target.value);
       clearTimeout(this.timer);
     }
   }
@@ -35,15 +35,13 @@ class TitleTextField extends Component {
   render() {
     return (
       <TextField
-        underlineStyle={{ borderColor: 'transparent'}}
-        fullWidth={true}
+        {...this.props}
         value={this.state.value}
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
-        onFocus={this.props.onFocus}
       />
     )
   }
 }
 
-export default TitleTextField;
+export default DelayChangeInput;

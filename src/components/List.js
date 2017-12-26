@@ -11,10 +11,13 @@ class List extends Component {
     return (
       <Paper zDepth={1} className="collection-list">
         <Subheader style={{ paddingLeft: 0 }}>         
-          <TitleTextField
+          <DelayChangeInput
             value={this.props.title}
-            onChangeFinish={this.props.onChangeFinish}
+            name="title"
+            onChange={this.props.onTitleChange}
             onFocus={this.props.onTitleFocus} 
+            underlineStyle={{ borderColor: 'transparent'}}
+            fullWidth={true}
           />
         </Subheader>
 

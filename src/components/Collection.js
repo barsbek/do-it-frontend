@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import update from 'immutability-helper';
 
-import TitleTextField from './TitleTextField';
 import List from './List';
 import NewListButton from './NewListButton';
 
@@ -91,12 +90,14 @@ class Collection extends Component {
     }
   }
 
+
   render() {
     const lists = this.state.lists.map(item => (
       <List
         key={item.id || "new"} 
+        id={item.id}
         title={item.title}
-        onChangeFinish={this.triggerTitleChange}
+        onTitleChange={this.triggerTitleChange}
         onTitleFocus={() => this.handleTitleFocus(item.id)}
       />
     ));
