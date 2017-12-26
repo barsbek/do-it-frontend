@@ -8,7 +8,7 @@ import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 
 import InputWithDelay from './InputWithDelay';
-// import Task from './Task';
+import Task from './Task';
 
 class List extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class List extends Component {
     };
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.addTask = this.addTask.bind(this);
   }
 
   handleTitleChange(title) {
@@ -44,21 +45,28 @@ class List extends Component {
     const listID = this.state.list.id;
     axios.put(`/api/lists/${listID}`, { title })
     .then(res => {
-      console.log(res.data);
       this.setState({ list: res.data });
     })
     .catch(this.props.onFailure);
   }
 
+  addTask(e) {
+    if(e.key === 'Enter') {
+      this.setState(update(this.state, {
+        tasks: {$push: [{title: e.target.value}]}
+      }));
+      e.target.value = '';
+    }
+  }
+
   render() {
-    
-    const tasks = [];
-    // this.state.tasks.map(t => (
-    //   <Task
-    //     key={t.id}
-    //     task={t}
-    //   />
-    // ));
+    const tasks = this.state.tasks.map(t => (
+      <Task
+        key={t.id}
+        list={this.state.list}
+        task={t}
+      />
+    ));
 
     return (
       <Paper zDepth={1} className="list">
@@ -73,15 +81,16 @@ class List extends Component {
         <div className="list-tasks">
           {tasks}
         </div>
-        {/* <TaskField
-          className="collection-new-task"
+        <TextField
           hintText="+"
+          onKeyPress={this.addTask}
 
+          // move styles into separate file
           fullWidth={true}
           inputStyle={{ paddingLeft: 10 }}
           hintStyle={{ textAlign: 'center', width: '100%' }}
           underlineStyle={{ bottom: 0 }}
-        /> */}
+        />
       </Paper>
     )
   }
