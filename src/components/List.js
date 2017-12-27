@@ -6,6 +6,7 @@ import Paper from 'material-ui/Paper';
 import Subheader from 'material-ui/Subheader';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import InputWithDelay from './InputWithDelay';
 import Task from './Task';
@@ -15,11 +16,24 @@ class List extends Component {
     super(props);
     this.state = {
       list: this.props.list,
-      tasks: []
+      tasks: [],
+      loading: true
     };
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.addTask = this.addTask.bind(this);
+    this.handleonTaskSaved = this.handleonTaskSaved.bind(this);
+  }
+
+  componentWillMount() {
+    axios.get(`/api/lists/${this.state.list.id}/tasks`)
+    .then(res => {
+      this.setState({
+        tasks: res.data,
+        loading: false
+      })
+    })
+    .catch(this.props.onFailure)
   }
 
   handleTitleChange(title) {
@@ -89,7 +103,7 @@ class List extends Component {
           />
         </Subheader>
         <div className="list-tasks">
-          {tasks}
+          {this.state.loading ? <CircularProgress size={24}/> : tasks}
         </div>
         <TextField
           hintText="+"
