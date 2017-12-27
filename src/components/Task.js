@@ -1,43 +1,31 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { SortableHandle } from 'react-sortable-hoc';
 
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
+import IconButton from 'material-ui/IconButton';
+import NavigationCancel from 'material-ui/svg-icons/navigation/cancel';
 
 import InputWithDelay from './InputWithDelay';
+
+import './Task.css';
 
 class Task extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      task: props.task,
       completed: props.task.completed
     }
 
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
     this.toggleComplete = this.toggleComplete.bind(this);
-  }
-
-  componentWillMount() {
-    if(!this.state.task.id) {
-      this.createTask(this.state.task.title);
-    }
-  }
-
-  createTask(title) {
-    const list_id = this.props.list.id;
-    axios.post(`/api/tasks`, { title, list_id })
-    .then(res => {
-      this.setState({ task: res.data });
-      if(this.props.onTaskSaved) this.props.onTaskSaved(res.data);
-    })
-    // TODO: get failure method
-    .catch(this.props.onFailure);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleTitleUpdate(title) {
     // TODO: animate saving process
-    const taskID = this.state.task.id;
+    const taskID = this.props.task.id;
     axios.put(`/api/tasks/${taskID}`, { title })
     .then(res => {
       this.setState({ task: res.data });
@@ -46,7 +34,7 @@ class Task extends Component {
   }
 
   toggleComplete() {
-    const taskID = this.state.task.id;
+    const taskID = this.props.task.id;
     const completed = !this.state.completed;
     this.setState({ completed });
     axios.put(`/api/tasks/${taskID}`, { completed })
@@ -59,22 +47,44 @@ class Task extends Component {
     });
   }
 
+  handleDelete() {
+    const task = this.props.task;
+    this.props.detachTask(task);
+
+    axios.delete(`/api/tasks/${this.props.task.id}`)
+    .then(res => {
+      this.props.onTaskDeleted(task);
+    })
+    .catch(err => {
+      this.props.attachTask(task);
+      if(this.props.onFailure) this.props.onFailure(err);
+    });
+  }
+
   render() {
+    const TaskSorter = SortableHandle(() => <span>:::</span>);
     return (
       <div>
+        <TaskSorter />
         <Checkbox
           checked={this.state.completed}
           onCheck={this.toggleComplete}
           label={
             <InputWithDelay
               hintText={"Change task"}
-              value={this.state.task.title}
+              value={this.props.task.title}
               onChangeStop={this.handleTitleUpdate}
               underlineShow={false}
               style={{ zIndex: 2 }}
             />
           }
         />
+        <IconButton
+          className="task-delete-button"
+          onClick={this.handleDelete}
+        >
+          <NavigationCancel />
+        </IconButton>
       </div>
     )
   }
