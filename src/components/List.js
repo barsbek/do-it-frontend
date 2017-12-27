@@ -85,7 +85,7 @@ class List extends Component {
   render() {
     const tasks = this.state.tasks.map(t => (
       <Task
-        key={t.id}
+        key={t.id || "new"}
         list={this.state.list}
         task={t}
         onTaskSaved={this.handleonTaskSaved}
