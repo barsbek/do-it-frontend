@@ -10,10 +10,12 @@ class Task extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      task: props.task
+      task: props.task,
+      completed: props.task.completed
     }
 
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
+    this.toggleComplete = this.toggleComplete.bind(this);
   }
 
   componentWillMount() {
@@ -43,16 +45,37 @@ class Task extends Component {
     .catch(this.props.onFailure);
   }
 
-  render() {
-    
-    return (
-      <InputWithDelay
-        hintText={"Change task"}
-        value={this.state.task.title}
+  toggleComplete() {
+    const taskID = this.state.task.id;
+    const completed = !this.state.completed;
+    this.setState({ completed });
+    axios.put(`/api/tasks/${taskID}`, { completed })
+    .then(res => {
+      this.props.onTaskSaved(res.data);
+    })
+    .catch(err => {
+      if(this.props.onFailure) this.props.onFailure(err);
+      this.setState({ completed: !completed });
+    });
+  }
 
-        onChangeStop={this.handleTitleUpdate}
-        underlineShow={false}
-      />
+  render() {
+    return (
+      <div>
+        <Checkbox
+          checked={this.state.completed}
+          onCheck={this.toggleComplete}
+          label={
+            <InputWithDelay
+              hintText={"Change task"}
+              value={this.state.task.title}
+              onChangeStop={this.handleTitleUpdate}
+              underlineShow={false}
+              style={{ zIndex: 2 }}
+            />
+          }
+        />
+      </div>
     )
   }
 }

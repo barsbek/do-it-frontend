@@ -74,7 +74,8 @@ class List extends Component {
   }
 
   handleonTaskSaved(task) {
-    const index = this.state.tasks.length - 1;
+    let index = this.state.tasks.findIndex(t => t.id === task.id);
+    if(!index) index = this.state.tasks.length - 1;
     this.setState(update(this.state, {
       tasks: {
         [index]: {$set: task}
