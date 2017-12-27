@@ -4,6 +4,8 @@ import axios from 'axios';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 
+import InputWithDelay from './InputWithDelay';
+
 class Task extends Component {
   constructor(props) {
     super(props);
@@ -11,12 +13,12 @@ class Task extends Component {
       task: props.task
     }
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
   }
 
   componentWillMount() {
     if(!this.state.task.id) {
-      this.createTask();
+      this.createTask(this.state.task.title);
     }
   }
 
@@ -25,27 +27,30 @@ class Task extends Component {
     axios.post(`/api/tasks`, { title, list_id })
     .then(res => {
       this.setState({ task: res.data });
-      this.props.updateList(res.data);
+      if(this.props.onTaskSaved) this.props.onTaskSaved(res.data);
     })
-    // get from parent or move into component
+    // TODO: get failure method
     .catch(this.props.onFailure);
   }
 
-  handleChange(e) {
-    this.setState({ title: e.target.value });
-  }
-
-  handleClick(e) {
-    console.log('asdf');
+  handleTitleUpdate(title) {
+    // TODO: animate saving process
+    const taskID = this.state.task.id;
+    axios.put(`/api/tasks/${taskID}`, { title })
+    .then(res => {
+      this.setState({ task: res.data });
+    })
+    .catch(this.props.onFailure);
   }
 
   render() {
+    
     return (
-      <TextField
+      <InputWithDelay
         hintText={"Change task"}
         value={this.state.task.title}
 
-        onChange={this.handleChange}
+        onChangeStop={this.handleTitleUpdate}
         underlineShow={false}
       />
     )

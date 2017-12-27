@@ -59,12 +59,22 @@ class List extends Component {
     }
   }
 
+  handleonTaskSaved(task) {
+    const index = this.state.tasks.length - 1;
+    this.setState(update(this.state, {
+      tasks: {
+        [index]: {$set: task}
+      }
+    }))
+  }
+
   render() {
     const tasks = this.state.tasks.map(t => (
       <Task
         key={t.id}
         list={this.state.list}
         task={t}
+        onTaskSaved={this.handleonTaskSaved}
       />
     ));
 
