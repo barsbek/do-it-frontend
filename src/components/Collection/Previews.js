@@ -17,6 +17,8 @@ class CollectionPreviews extends Component {
       loading: !this.storage.data,
       collections: this.storage.data || []
     };
+
+    this.bindMethods();
   }
 
   bindMethods() {
