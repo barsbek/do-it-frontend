@@ -22,7 +22,6 @@ class CollectionPreview extends Component {
 
   bindMethods() {
     this.openCollection = this.openCollection.bind(this);
-    this.updateCollection = this.updateCollection.bind(this);
     this.showTimePicker = this.showTimePicker.bind(this);
     this.updateFinishAt = this.updateFinishAt.bind(this);
   }
@@ -34,11 +33,29 @@ class CollectionPreview extends Component {
 
   updateCollection(data) {
     const { id } = this.props.collection;
+
     axios.put(`/api/collections/${id}`, data)
     .then(res => {
       this.props.onUpdate(res.data);
     })
     .catch(err => alert(err));
+  }
+
+  createCollection(data) {
+    axios.post('/api/collections', data)
+    .then(res => {
+      this.props.onUpdate(res.data, true);
+    })
+    .catch(err => alert(err));
+  }
+
+  handleChange(data) {
+    const c = {...this.props.collection, ...data};
+    if(this.props.collection.id === "new") {
+      this.createCollection(c);
+    } else {
+      this.updateCollection(c);
+    }
   }
 
   showTimePicker(temp, date) {
@@ -57,12 +74,13 @@ class CollectionPreview extends Component {
       minute: mTime.minutes(),
       second: mTime.seconds()
     }).toString();
-    this.updateCollection({ finish_at });
+
+    this.handleChange({ finish_at });
   }
 
   render() {
     const { id, title, finish_at } = this.props.collection;
-    
+    console.log(id, title);
     return (
       <ListItem
         style={{ height: 50 }}
@@ -70,7 +88,7 @@ class CollectionPreview extends Component {
           <InputWithDelay
             name="title"
             value={title}
-            onChangeStop={title => this.updateCollection({ title })}
+            onChangeStop={title => this.handleChange({ title })}
             style={{ height: 34, width: 180 }}
           />
         }
