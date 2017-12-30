@@ -4,7 +4,6 @@ import axios from 'axios';
 import moment from 'moment';
 
 import ListItem from 'material-ui/List/ListItem';
-import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker';
@@ -101,7 +100,6 @@ class CollectionPreview extends Component {
         primaryText={
           <InputWithDelay
             name="title"
-            id={id}
             value={title}
             focus={ id === "new" }
             onChangeStop={title => this.handleChange({ title })}

@@ -15,10 +15,10 @@ class Storage {
 
   set(data, update_at) {
     try {
-      this.data, this.updated_at = { data, update_at };
+      this.data = data;
+      this.updated_at = update_at;
       const s = JSON.stringify({ data, update_at });
       return this.storage.setItem(this.name, s);
-      return true;
     } catch(e) {
       return false;
     }
