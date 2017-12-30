@@ -5,7 +5,6 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 
 import UserInfo from './user/UserInfo';
-import Logout from './user/Logout';
 import CollectionPreviews from './components/Collection/Previews';
 import Collection from './components/Collection';
 
@@ -56,13 +55,12 @@ class App extends Component {
         <AppBar
           title="title"
           onLeftIconButtonClick={() => this.openDrawer(true)}
-          iconElementRight={<Logout />}
         />
         <Drawer
           open={this.state.drawer} docked={false}
           onRequestChange={d => this.openDrawer(d)}
         >
-          <UserInfo user={this.props.user} />
+          <UserInfo user={this.props.user} onLogout={this.props.onLogout} />
           <CollectionPreviews />
         </Drawer>
 
