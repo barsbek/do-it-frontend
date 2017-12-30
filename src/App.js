@@ -6,7 +6,7 @@ import Drawer from 'material-ui/Drawer';
 
 import UserInfo from './user/UserInfo';
 import Logout from './user/Logout';
-import Collections from './components/Collections';
+import CollectionPreviews from './components/Collection/Previews';
 import Collection from './components/Collection';
 
 import './App.css';
@@ -57,7 +57,7 @@ class App extends Component {
           onRequestChange={d => this.openDrawer(d)}
         >
           <UserInfo user={this.props.user} />
-          <Collections />
+          <CollectionPreviews />
         </Drawer>
 
         <div className="app-content">
