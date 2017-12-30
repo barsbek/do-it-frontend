@@ -14,16 +14,20 @@ class CollectionPreviews extends Component {
     this.storage = new Storage('collections');
 
     this.state = {
-      loading: !this.storage.get(),
-      collections: this.storage.get() || []
+      loading: !this.storage.data,
+      collections: this.storage.data || []
     };
+  }
+
+  bindMethods() {
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentWillMount() {
     axios.get('/api/collections')
     .then(res => {
       const { last_update, collections } = res.data;
-      if(this.storage.outOfDate(last_update)) {
+      if(this.storage.olderThan(last_update)) {
         this.storage.set(collections, last_update);
         this.setState({ collections, loading: false });
       } else {
@@ -36,9 +40,22 @@ class CollectionPreviews extends Component {
     });
   }
 
+  handleUpdate(collection) {
+    const newData = this.storage.data.map(c => {
+      if(c.id === collection.id) return collection;
+      return c;
+    });
+
+    this.storage.set(newData, collection.updated_at);
+  }
+
   renderCollections() {
     return this.state.collections.map((c, index) => (
-      <CollectionPreview key={index} collection={c} />
+      <CollectionPreview
+        key={index}
+        collection={c}
+        onUpdate={this.handleUpdate}
+      />
     ));
   }
 
