@@ -98,7 +98,6 @@ class CollectionPreview extends Component {
 
   render() {
     const { id, title, finish_at } = this.props.collection;
-    console.log(id, title);
     return (
       <ListItem
         style={{ height: 50 }}
