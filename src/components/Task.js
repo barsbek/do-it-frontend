@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { SortableHandle } from 'react-sortable-hoc';
 
-import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import NavigationCancel from 'material-ui/svg-icons/navigation/cancel';

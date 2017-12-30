@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import update from 'immutability-helper';
-import moment from 'moment';
 
 import List from 'material-ui/List/List';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -79,10 +77,9 @@ class CollectionPreviews extends Component {
   lastUpdateFrom(cs) {
     if(cs.length > 0) {
       const initial = Date.parse(cs[0].updated_at);
-      return cs.reduce((maxDate, c) => {
-        Math.max(maxDate, Date.parse(c.updated_at)),
-        initial
-      });
+      return cs.reduce((maxDate, c) => (
+        Math.max(maxDate, Date.parse(c.updated_at)) 
+      ), initial);
     }
     return null;
   }

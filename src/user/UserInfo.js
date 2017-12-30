@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import React from 'react';
 import CardHeader from 'material-ui/Card/CardHeader';
 
 const UserInfo = (props) => (
