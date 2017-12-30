@@ -130,7 +130,7 @@ class CollectionPreview extends Component {
             />
           </div>
         }
-        rightIconButton={
+        rightIconButton={this.props.collection.id !== "new" &&
           <IconButton
             onClick={this.handleIconClick} style={{ zIndex: 2 }}>
             {this.props.removable ? <ContentClear /> : <ArrowForward />}
