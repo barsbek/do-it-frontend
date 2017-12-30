@@ -16,9 +16,9 @@ const Main = () => (
   <MuiThemeProvider>
     <Router>
       <Switch>
-        <PrivateRoute exact path="/" component={App} />
-        <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/login" component={Login} />
+        <PrivateRoute path="/" component={App} />
       </Switch>
     </Router>
   </MuiThemeProvider>
