@@ -6,10 +6,11 @@ import moment from 'moment';
 import ListItem from 'material-ui/List/ListItem';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
-import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker';
 import RaisedButton from 'material-ui/RaisedButton';
+import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import InputWithDelay from '../InputWithDelay'
 
@@ -24,11 +25,11 @@ class CollectionPreview extends Component {
     this.openCollection = this.openCollection.bind(this);
     this.showTimePicker = this.showTimePicker.bind(this);
     this.updateFinishAt = this.updateFinishAt.bind(this);
+    this.handleIconClick = this.handleIconClick.bind(this);
   }
 
   openCollection() {
-    const { id } = this.props.collection;
-    this.props.history.push(`/collections/${id}`);
+
   }
 
   updateCollection(data) {
@@ -49,6 +50,14 @@ class CollectionPreview extends Component {
     .catch(err => alert(err));
   }
 
+  deleteCollection(id) {
+    axios.delete(`/api/collections/${id}`)
+    .then(res => {
+      this.props.onDelete(res.data);
+    })
+    .catch(err => alert(err));
+  }
+
   handleChange(data) {
     const c = {...this.props.collection, ...data};
     if(this.props.collection.id === "new") {
@@ -58,12 +67,21 @@ class CollectionPreview extends Component {
     }
   }
 
-  showTimePicker(temp, date) {
+  handleIconClick() {
+    const { id } = this.props.collection;
+    if(this.props.removable) {
+      this.deleteCollection(id);
+    } else {
+      this.props.history.push(`/collections/${id}`);
+    }
+  }
+
+  showTimePicker(_, date) {
     this.refs.timepicker.openDialog();
     this.date = date;
   }
 
-  updateFinishAt(temp, time) {
+  updateFinishAt(_, time) {
     const mTime = moment(time);
     const mDate = moment(this.date);
     const finish_at = moment({
@@ -116,8 +134,8 @@ class CollectionPreview extends Component {
         }
         rightIconButton={
           <IconButton
-            onClick={this.openCollection} style={{ zIndex: 2 }}>
-            <ArrowForward />
+            onClick={this.handleIconClick} style={{ zIndex: 2 }}>
+            {this.props.removable ? <ContentClear /> : <ArrowForward />}
           </IconButton>
         }
       />

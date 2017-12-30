@@ -21,7 +21,8 @@ class CollectionPreviews extends Component {
 
     this.state = {
       loading: !this.storage.data,
-      collections: this.storage.data || []
+      collections: this.storage.data || [],
+      removable: false
     };
 
     this.bindMethods();
@@ -29,7 +30,9 @@ class CollectionPreviews extends Component {
 
   bindMethods() {
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.newCollection = this.newCollection.bind(this);
+    this.toggleRemovable = this.toggleRemovable.bind(this);
   }
 
   componentWillMount() {
@@ -59,7 +62,19 @@ class CollectionPreviews extends Component {
       return c;
     });
 
-    this.storage.set(collections, collection.updated_at);
+    this.updateLocal(collections, collection.updated_at);
+  }
+
+  handleDelete(data) {
+    const { collection, last_update } = data;
+    const collections = this.state.collections.filter(c => {
+      return c.id !== collection.id
+    });
+    this.updateLocal(collections, last_update);
+  }
+
+  updateLocal(collections, last_update) {
+    this.storage.set(collections, last_update);
     this.setState({ collections });
   }
 
@@ -74,12 +89,19 @@ class CollectionPreviews extends Component {
     }
   }
 
+  toggleRemovable() {
+    const removable = !this.state.removable;
+    this.setState({ removable });
+  }
+
   renderCollections() {
     return this.state.collections.map((c, index) => (
       <CollectionPreview
         key={c.id || "new"}
         collection={c}
+        removable={this.state.removable}
         onUpdate={this.handleUpdate}
+        onDelete={this.handleDelete}
       />
     ));
   }
@@ -92,7 +114,7 @@ class CollectionPreviews extends Component {
           <IconButton onClick={this.newCollection}>
             <ContentAdd />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={this.toggleRemovable}>
             <ContentRemove />
           </IconButton>
         </div>
