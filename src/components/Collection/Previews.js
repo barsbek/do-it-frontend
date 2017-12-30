@@ -66,11 +66,25 @@ class CollectionPreviews extends Component {
   }
 
   handleDelete(data) {
-    const { collection, last_update } = data;
+    let { collection, last_update } = data;
     const collections = this.state.collections.filter(c => {
-      return c.id !== collection.id
+      return c.id !== collection.id; 
     });
+
+    last_update = last_update ? last_update : this.lastUpdateFrom(collections);
+    if(collection.id === 'new') this.creatable = true;
     this.updateLocal(collections, last_update);
+  }
+
+  lastUpdateFrom(cs) {
+    if(cs.length > 0) {
+      const initial = Date.parse(cs[0].updated_at);
+      return cs.reduce((maxDate, c) => {
+        Math.max(maxDate, Date.parse(c.updated_at)),
+        initial
+      });
+    }
+    return null;
   }
 
   updateLocal(collections, last_update) {

@@ -22,14 +22,9 @@ class CollectionPreview extends Component {
   }
 
   bindMethods() {
-    this.openCollection = this.openCollection.bind(this);
     this.showTimePicker = this.showTimePicker.bind(this);
     this.updateFinishAt = this.updateFinishAt.bind(this);
     this.handleIconClick = this.handleIconClick.bind(this);
-  }
-
-  openCollection() {
-
   }
 
   updateCollection(data) {
@@ -51,6 +46,8 @@ class CollectionPreview extends Component {
   }
 
   deleteCollection(id) {
+    if(id === "new") return this.props.onDelete({collection: { id }});
+
     axios.delete(`/api/collections/${id}`)
     .then(res => {
       this.props.onDelete(res.data);
@@ -104,7 +101,9 @@ class CollectionPreview extends Component {
         primaryText={
           <InputWithDelay
             name="title"
+            id={id}
             value={title}
+            focus={ id === "new" }
             onChangeStop={title => this.handleChange({ title })}
             style={{ height: 34, width: 180 }}
           />

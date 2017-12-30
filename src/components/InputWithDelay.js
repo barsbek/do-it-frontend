@@ -9,6 +9,7 @@ class InputWithDelay extends Component {
     this.delay = this.props.delay || 600;
 
     this.handleChange = this.handleChange.bind(this);
+    this.focusInput = this.focusInput.bind(this);
   }
 
   componentWillMount() {
@@ -24,11 +25,16 @@ class InputWithDelay extends Component {
     this.delay);
   }
 
+  focusInput(input) {
+    if(this.props.focus && input) input.focus(); 
+  }
+
   render() {
-    const { onChangeStop, ...rest } = this.props;
+    const { onChangeStop, focus, ...rest } = this.props;
     return (
       <TextField
         {...rest}
+        ref={this.focusInput}
         value={this.state.value}
         onChange={this.handleChange}
       />
