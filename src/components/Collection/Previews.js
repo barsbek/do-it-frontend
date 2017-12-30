@@ -43,12 +43,13 @@ class CollectionPreviews extends Component {
   }
 
   handleUpdate(collection) {
-    const newData = this.storage.data.map(c => {
+    const collections = this.state.collections.map(c => {
       if(c.id === collection.id) return collection;
       return c;
     });
 
-    this.storage.set(newData, collection.updated_at);
+    this.storage.set(collections, collection.updated_at);
+    this.setState({ collections })
   }
 
   renderCollections() {
