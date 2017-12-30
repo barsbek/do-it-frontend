@@ -1,17 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import './index.css';
 import App from './App';
+import PrivateRoute from './common/PrivateRoute';
+import Login from './user/LoginForm';
+import Register from './user/Register';
+
 import registerServiceWorker from './registerServiceWorker';
 
 const Main = () => (
   <MuiThemeProvider>
-    <App />
+    <Router>
+      <Switch>
+        <PrivateRoute exact path="/" component={App} />
+        <Route path="/register" component={Register} />
+        <Route path="/login" component={Login} />
+      </Switch>
+    </Router>
   </MuiThemeProvider>
 )
 
