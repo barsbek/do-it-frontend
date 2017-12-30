@@ -67,7 +67,7 @@ class CollectionPreview extends Component {
     const { id } = this.props.collection;
     if(this.props.removable) {
       this.deleteCollection(id);
-    } else {
+    } else if(id !== "new") {
       this.props.history.push(`/collections/${id}`);
     }
   }
@@ -130,8 +130,9 @@ class CollectionPreview extends Component {
             />
           </div>
         }
-        rightIconButton={this.props.collection.id !== "new" &&
+        rightIconButton={
           <IconButton
+            disabled={ id === "new" && !this.props.removable }
             onClick={this.handleIconClick} style={{ zIndex: 2 }}>
             {this.props.removable ? <ContentClear /> : <ArrowForward />}
           </IconButton>
