@@ -116,12 +116,14 @@ class CollectionPreview extends Component {
             />
             <DatePicker
               ref="datepicker"
+              name="date"
               value={new Date(finish_at)}
               autoOk={true}
               onChange={this.showTimePicker}
             />
             <TimePicker
               ref="timepicker"
+              name="time"
               autoOk={true}
               value={new Date(finish_at)}
               onChange={this.updateFinishAt}
