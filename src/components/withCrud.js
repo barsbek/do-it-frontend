@@ -62,13 +62,17 @@ function withCrud(WrappedComponent) {
     }
   
     render() {
+      const actions = {
+        create: this.create,
+        update: this.update,
+        delete: this.delete,
+        change: this.change,
+      }
+
       return (
         <WrappedComponent
           {...this.props}
-          create={this.create}
-          update={this.update}
-          delete={this.delete}
-          change={this.change}
+          crud={actions}
         />
       )
     }

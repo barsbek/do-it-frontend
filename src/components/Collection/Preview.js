@@ -12,6 +12,7 @@ import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import InputWithDelay from '../InputWithDelay'
+import withCrud from '../withCrud';
 
 class CollectionPreview extends Component {
   constructor(props) {
@@ -27,11 +28,11 @@ class CollectionPreview extends Component {
   }
 
   handleIconClick() {
-    const { id } = this.props.item;
+    const item = this.props.item;
     if(this.props.removable) {
-      this.props.delete(id);
-    } else if(id !== "new") {
-      this.props.history.push(`/collections/${id}`);
+      this.props.crud.delete(item);
+    } else if(item.id !== "new") {
+      this.props.history.push(`/collections/${item.id}`);
     }
   }
 
@@ -52,7 +53,7 @@ class CollectionPreview extends Component {
       second: mTime.seconds()
     }).toString();
 
-    this.handleChange({ finish_at });
+    this.props.crud.change({ finish_at });
   }
 
   render() {
@@ -65,7 +66,7 @@ class CollectionPreview extends Component {
             name="title"
             value={title}
             focus={ id === "new" }
-            onChangeStop={title => this.props.change({ title })}
+            onChangeStop={title => this.props.crud.change({ title })}
             style={{ height: 34, width: 180 }}
           />
         }
@@ -105,4 +106,4 @@ class CollectionPreview extends Component {
   }
 }
 
-export default withRouter(CollectionPreview);
+export default withCrud(withRouter(CollectionPreview));

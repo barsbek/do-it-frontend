@@ -9,8 +9,7 @@ import ContentRemove from 'material-ui/svg-icons/content/remove';
 
 import Storage from '../../modules/Storage';
 import withCrud from '../withCrud';
-import CollectionPreview from './Preview';
-const PreviewWithCrud = withCrud(CollectionPreview);
+import PreviewWithCrud from './Preview';
 
 class CollectionPreviews extends Component {
   constructor(props) {
