@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import querystring from 'querystring';
 
 import List from 'material-ui/List/List';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -14,12 +15,13 @@ class CollectionPreviews extends Component {
   constructor() {
     super();
 
-    this.storage = new Storage('collections');
     this.creatable = true;
+    this.storage = new Storage('collections');
+    const data = this.storage.getPage(1);
 
     this.state = {
-      loading: !this.storage.data,
-      collections: this.storage.data || [],
+      loading: !data,
+      collections: data || [],
       removable: false
     };
 
@@ -34,11 +36,16 @@ class CollectionPreviews extends Component {
   }
 
   componentWillMount() {
-    axios.get('/api/collections')
+    this.getCollections(1);
+  }
+
+  getCollections(page = 1) {
+    axios.get(`/api/collections?page=${page}`)
     .then(res => {
       const { last_update, collections } = res.data;
-      if(this.storage.olderThan(last_update)) {
-        this.storage.set(collections, last_update);
+      if(this.storage.olderThan(last_update, page)) {
+        const s = {collections, updated_at: last_update};
+        this.storage.set(s, page);
         this.setState({ collections, loading: false });
       } else {
         this.setState({ loading: false })
