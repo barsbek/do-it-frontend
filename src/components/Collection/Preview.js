@@ -26,15 +26,6 @@ class CollectionPreview extends Component {
     this.handleIconClick = this.handleIconClick.bind(this);
   }
 
-  handleChange(data) {
-    const c = {...this.props.item, ...data};
-    if(this.props.item.id === "new") {
-      this.props.create(c);
-    } else {
-      this.props.update(c);
-    }
-  }
-
   handleIconClick() {
     const { id } = this.props.item;
     if(this.props.removable) {
@@ -74,7 +65,7 @@ class CollectionPreview extends Component {
             name="title"
             value={title}
             focus={ id === "new" }
-            onChangeStop={title => this.handleChange({ title })}
+            onChangeStop={title => this.props.change({ title })}
             style={{ height: 34, width: 180 }}
           />
         }

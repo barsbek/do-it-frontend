@@ -21,10 +21,6 @@ class CollectionList extends Component {
     };
   }
 
-  bindMethods() {
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-  }
-
   renderTasks() {
     this.state.tasks.map((t, index) => {
       <div key={t.id || "new"}>t.title</div>
