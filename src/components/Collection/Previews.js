@@ -8,7 +8,9 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 
 import Storage from '../../modules/Storage';
-import CollectionPreview from './Preview';
+import withCrud from '../withCrud';
+import Preview from './Preview';
+const CollectionPreview = withCrud(Preview);
 
 class CollectionPreviews extends Component {
   constructor() {
@@ -29,6 +31,7 @@ class CollectionPreviews extends Component {
   bindMethods() {
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleCreate = this.handleCreate.bind(this);
     this.newCollection = this.newCollection.bind(this);
     this.toggleRemovable = this.toggleRemovable.bind(this);
   }
@@ -50,13 +53,21 @@ class CollectionPreviews extends Component {
     });
   }
 
-  handleUpdate(collection, newCollection=false) {
+  handleCreate(collection) {
     const collections = this.state.collections.map(c => {
-      if(!newCollection && c.id === collection.id) return collection;
-      if(newCollection && c.id === "new") {
+      if(c.id === "new") {
         this.creatable = true;
         return collection;
       }
+      return c;
+    });
+
+    this.updateLocal(collections, collection.updated_at);
+  }
+
+  handleUpdate(collection) {
+    const collections = this.state.collections.map(c => {
+      if(c.id === collection.id) return collection;
       return c;
     });
 
@@ -110,7 +121,10 @@ class CollectionPreviews extends Component {
       <CollectionPreview
         key={c.id || "new"}
         collection={c}
+        name="collection"
+        pathname="/api/collections"
         removable={this.state.removable}
+        onCreate={this.handleCreate}
         onUpdate={this.handleUpdate}
         onDelete={this.handleDelete}
       />

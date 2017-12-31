@@ -26,47 +26,19 @@ class CollectionPreview extends Component {
     this.handleIconClick = this.handleIconClick.bind(this);
   }
 
-  updateCollection(data) {
-    const { id } = this.props.collection;
-
-    axios.put(`/api/collections/${id}`, data)
-    .then(res => {
-      this.props.onUpdate(res.data);
-    })
-    .catch(err => alert(err));
-  }
-
-  createCollection(data) {
-    axios.post('/api/collections', data)
-    .then(res => {
-      this.props.onUpdate(res.data, true);
-    })
-    .catch(err => alert(err));
-  }
-
-  deleteCollection(id) {
-    if(id === "new") return this.props.onDelete({collection: { id }});
-
-    axios.delete(`/api/collections/${id}`)
-    .then(res => {
-      this.props.onDelete(res.data);
-    })
-    .catch(err => alert(err));
-  }
-
   handleChange(data) {
     const c = {...this.props.collection, ...data};
     if(this.props.collection.id === "new") {
-      this.createCollection(c);
+      this.props.create(c);
     } else {
-      this.updateCollection(c);
+      this.props.update(c);
     }
   }
 
   handleIconClick() {
     const { id } = this.props.collection;
     if(this.props.removable) {
-      this.deleteCollection(id);
+      this.props.delete(id);
     } else if(id !== "new") {
       this.props.history.push(`/collections/${id}`);
     }
@@ -93,7 +65,7 @@ class CollectionPreview extends Component {
   }
 
   render() {
-    const { id, title, finish_at } = this.props.collection;
+    const { id, title, finish_at } = this.props[this.props.name];
     return (
       <ListItem
         style={{ height: 50 }}
