@@ -22,7 +22,7 @@ function withCrud(WrappedComponent) {
 
     update(data) {
       const { pathname, name } = this.props;
-      const { id }= this.props[name];
+      const { id }= this.props.item;
   
       axios.put(`${pathname}/${id}`, data)
       .then(res => {
@@ -40,7 +40,7 @@ function withCrud(WrappedComponent) {
     //   })
     //   .catch(err => alert(err));
     // }
-  
+
     delete(id) {
       if(id === "new")
         return this.props.onDelete({[this.props.name]: { id }});

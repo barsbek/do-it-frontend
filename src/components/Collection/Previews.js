@@ -120,7 +120,7 @@ class CollectionPreviews extends Component {
     return this.state.collections.map((c, index) => (
       <CollectionPreview
         key={c.id || "new"}
-        collection={c}
+        item={c}
         name="collection"
         pathname="/api/collections"
         removable={this.state.removable}
