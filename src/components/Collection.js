@@ -3,14 +3,13 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import update from 'immutability-helper';
 
-import CollectionList from './Collection/List';
 import NewListButton from './NewListButton';
 import withCrud from './withCrud';
+import withLocalStorage from './withLocalStorage';
+import CollectionList from './Collection/List';
 
 import './Collection.css';
 import Storage from '../modules/Storage';
-
-const ListWithCrud = withCrud(CollectionList);
 
 class Collection extends Component {
   constructor(props) {
@@ -20,14 +19,12 @@ class Collection extends Component {
 
   renderLists() {
     return this.props.items.map(item => (
-      <ListWithCrud
+      <CollectionList
         key={item.id || "new"}
         item={{...item, collection_id: this.props.id}}
         name="list"
         pathname="/api/lists"
-        onCreate={this.props.onCreate}
-        onUpdate={this.props.onUpdate}
-        onDelete={this.props.onDelete}
+        {...this.props.storage}
       />
     ));
   }
@@ -39,11 +36,11 @@ class Collection extends Component {
           {this.renderLists()}
         </div>
         <NewListButton onClick={
-          () => this.props.newItem({ id: "new", title: '' })
+          () => this.props.storage.newItem({ id: "new", title: '' })
         }/>
       </div>
     );
   }
 }
 
-export default withRouter(Collection);
+export default withLocalStorage(Collection);

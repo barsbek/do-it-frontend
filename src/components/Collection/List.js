@@ -11,6 +11,7 @@ import IconButton from 'material-ui/IconButton';
 import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import InputWithDelay from '../InputWithDelay';
+import withCrud from '../withCrud';
 // import Task from './Task';
 
 class CollectionList extends Component {
@@ -25,7 +26,7 @@ class CollectionList extends Component {
 
   renderTasks() {
     this.state.tasks.map((t, index) => {
-      <div key={t.id || "new"}>t.title</div>
+      <div key={t.id || "new"}>{t.title}</div>
       // <Task
       //   key={t.id || "new"}
       //   list={this.props.list}
@@ -42,11 +43,11 @@ class CollectionList extends Component {
           <InputWithDelay
             value={title}
             name="title"
-            onChangeStop={title => this.props.change({ title })}
+            onChangeStop={title => this.props.crud.change({ title })}
             fullWidth={true}
           />
           <IconButton onClick={
-            () => this.props.delete(this.props.item)
+            () => this.props.crud.delete(this.props.item)
           }>
             <ContentClear />
           </IconButton>
@@ -72,4 +73,4 @@ class CollectionList extends Component {
   }
 }
 
-export default CollectionList;
+export default withCrud(CollectionList);

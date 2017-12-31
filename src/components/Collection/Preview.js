@@ -106,4 +106,4 @@ class CollectionPreview extends Component {
   }
 }
 
-export default withCrud(withRouter(CollectionPreview));
+export default withCrud(CollectionPreview);

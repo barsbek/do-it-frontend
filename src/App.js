@@ -5,15 +5,11 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 
 import UserInfo from './user/UserInfo';
-import Previews from './components/Collection/Previews';
-import withLocalStorage from './components/withLocalStorage';
+import CollectionPreviews from './components/Collection/Previews';
 
 import Collection from './components/Collection';
 
 import './App.css';
-
-const PreviewsWithStorage = withLocalStorage(Previews);
-const CollectionWithStorage = withLocalStorage(Collection);
 
 class App extends Component {
   constructor(props) {
@@ -66,7 +62,7 @@ class App extends Component {
           onRequestChange={d => this.openDrawer(d)}
         >
           <UserInfo user={this.props.user} onLogout={this.props.onLogout} />
-          <PreviewsWithStorage
+          <CollectionPreviews
             pathname="/api/collections"
             name="collections"
             itemsName="collections"
@@ -74,17 +70,14 @@ class App extends Component {
         </Drawer>
 
         <div className="app-content">
-          <Route path="/collections/:id" render={props => {
-            const { id } = props.match.params;
-            return (
-              <CollectionWithStorage
-                id={id}
-                pathname={`/api/collections/${id}`}
-                name={`collections-${id}`}
-                itemsName="lists"
-              />
-            )
-          }} />
+          <Route path="/collections/:id" render={props => (
+            <Collection
+              id={props.match.params.id}
+              pathname={`/api/collections/${props.match.params.id}`}
+              name={`collections-${props.match.params.id}`}
+              itemsName="lists"
+            />
+          )} />
         </div>
       </div>
     )

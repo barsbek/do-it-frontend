@@ -92,14 +92,17 @@ function withLocalStorage(WrappedComponent) {
     }
 
     render() {
+      const storage = {
+        onCreate: this.onCreate.bind(this),
+        onUpdate: this.onUpdate.bind(this),
+        onDelete: this.onDelete.bind(this),
+        newItem:  this.onNewItem.bind(this),
+      }
       return (
         <WrappedComponent
           {...this.props}
           {...this.state}
-          onCreate={this.onCreate.bind(this)}
-          onUpdate={this.onUpdate.bind(this)}
-          onDelete={this.onDelete.bind(this)}
-          newItem={this.onNewItem.bind(this)}
+          storage={storage}
         />
       )
     }
