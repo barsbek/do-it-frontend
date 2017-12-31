@@ -38,7 +38,9 @@ class Collection extends Component {
         <div className="collection-lists">
           {this.renderLists()}
         </div>
-        <NewListButton onClick={this.props.newItem}/>
+        <NewListButton onClick={
+          () => this.props.newItem({ id: "new", title: '' })
+        }/>
       </div>
     );
   }
