@@ -10,6 +10,7 @@ function withCrud(WrappedComponent) {
       this.update = this.update.bind(this);
       // this.read = this.read.bind(this);
       this.delete = this.delete.bind(this);
+      this.change = this.change.bind(this);
     }
 
     create(data) {
@@ -54,6 +55,12 @@ function withCrud(WrappedComponent) {
       .catch(err => alert(err));
     }
 
+    change(data) {
+      const list = { ...this.props.item, ...data };
+      if(list.id === "new") this.create(list);
+      else this.update(list);
+    }
+  
     render() {
       return (
         <WrappedComponent
@@ -61,6 +68,7 @@ function withCrud(WrappedComponent) {
           create={this.create}
           update={this.update}
           delete={this.delete}
+          change={this.change}
         />
       )
     }

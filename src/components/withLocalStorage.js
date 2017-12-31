@@ -20,7 +20,7 @@ function withLocalStorage(WrappedComponent) {
       axios.get(this.props.pathname)
       .then(res => {
         const { last_update } = res.data;
-        const items = res.data[this.props.name];
+        const items = res.data[this.props.itemsName];
         if(this.storage.olderThan(last_update)) {
           this.storage.set(items, last_update);
           this.setState({ items, loading: false });

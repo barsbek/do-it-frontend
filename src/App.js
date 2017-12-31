@@ -13,6 +13,7 @@ import Collection from './components/Collection';
 import './App.css';
 
 const PreviewsWithStorage = withLocalStorage(Previews);
+const CollectionWithStorage = withLocalStorage(Collection);
 
 class App extends Component {
   constructor(props) {
@@ -68,11 +69,22 @@ class App extends Component {
           <PreviewsWithStorage
             pathname="/api/collections"
             name="collections"
+            itemsName="collections"
           />
         </Drawer>
 
         <div className="app-content">
-          {/* <Route path="/collections/:id" component={Collection} /> */}
+          <Route path="/collections/:id" render={props => {
+            const { id } = props.match.params;
+            return (
+              <CollectionWithStorage
+                id={id}
+                pathname={`/api/collections/${id}`}
+                name={`collections-${id}`}
+                itemsName="lists"
+              />
+            )
+          }} />
         </div>
       </div>
     )

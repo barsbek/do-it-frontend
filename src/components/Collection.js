@@ -3,74 +3,42 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import update from 'immutability-helper';
 
-import List from './List';
+import CollectionList from './Collection/List';
 import NewListButton from './NewListButton';
+import withCrud from './withCrud';
 
 import './Collection.css';
+import Storage from '../modules/Storage';
+
+const ListWithCrud = withCrud(CollectionList);
 
 class Collection extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      collection: null,
-      lists: [],
-      tempNewList: false
-    }
-
-    this.handleListCreation = this.handleListCreation.bind(this);
-    this.addTempList = this.addTempList.bind(this);
+    this.renderLists = this.renderLists.bind(this);
   }
 
-  componentWillMount() {
-    this.getCollection(this.props.match.url);
-    this.props.history.listen((location, action) => {
-      this.getCollection(location.pathname);
-    })
-  }
-
-  getCollection(pathname) {
-    axios.get(`/api/${pathname}`)
-    .then(res => {
-      const collection = res.data.collection;
-      const lists = res.data.lists;
-      this.setState({ collection, lists });
-    })
-    .catch(this.props.onFailure);
-  }
-
-  handleListCreation(list) {
-    this.setState(update(this.state, {
-      lists: {
-        [0]: { $set: list }
-      },
-      tempNewList: {$set: false}
-    }))
-  }
-
-  addTempList() {
-    if(!this.state.tempNewList) {
-      this.setState(update(this.state, {
-        lists: {$unshift: [{title: ''}]},
-        tempNewList: {$set: true}
-      }))
-    }
+  renderLists() {
+    return this.props.items.map(item => (
+      <ListWithCrud
+        key={item.id || "new"}
+        item={{...item, collection_id: this.props.id}}
+        name="list"
+        pathname="/api/lists"
+        onCreate={this.props.onCreate}
+        onUpdate={this.props.onUpdate}
+        onDelete={this.props.onDelete}
+      />
+    ));
   }
 
   render() {
-    const lists = this.state.lists.map(item => (
-      <List
-        key={item.id || "new"}
-        list={item}
-        collection={this.state.collection}
-        updateCollection={this.handleListCreation}
-      />
-    ));
     return (
       <div className="collection">
         <div className="collection-lists">
-          {lists}
+          {this.renderLists()}
         </div>
-        <NewListButton onClick={this.addTempList}/>
+        <NewListButton onClick={this.props.newItem}/>
       </div>
     );
   }
