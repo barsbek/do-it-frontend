@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-function withCrud(WrappedComponent) {
+function withCrud(WrappedComponent, configs = {}) {
   return class extends Component {
     constructor(props) {
       super(props);
@@ -14,7 +14,7 @@ function withCrud(WrappedComponent) {
     }
 
     create(data) {
-      axios.post(this.props.pathname, data)
+      axios.post(configs.pathname, data)
       .then(res => {
         this.props.onCreate(res.data);
       })
@@ -22,10 +22,9 @@ function withCrud(WrappedComponent) {
     }
 
     update(data) {
-      const { pathname, name } = this.props;
       const { id }= this.props.item;
   
-      axios.put(`${pathname}/${id}`, data)
+      axios.put(`${configs.pathname}/${id}`, data)
       .then(res => {
         this.props.onUpdate(res.data);
       })
@@ -46,9 +45,9 @@ function withCrud(WrappedComponent) {
       if(item.id === "new")
         return this.props.onDelete({ item });
       
-      axios.delete(`${this.props.pathname}/${item.id}`)
+      axios.delete(`${configs.pathname}/${item.id}`)
       .then(res => {
-        const item = res.data[this.props.name];
+        const item = res.data[configs.name];
         const { last_update }= res.data;
         this.props.onDelete({ item, last_update });
       })

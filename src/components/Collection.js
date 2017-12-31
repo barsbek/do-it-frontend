@@ -20,10 +20,9 @@ class Collection extends Component {
   renderLists() {
     return this.props.items.map(item => (
       <CollectionList
+        withID={item.id}
         key={item.id || "new"}
         item={{...item, collection_id: this.props.id}}
-        name="list"
-        pathname="/api/lists"
         {...this.props.storage}
       />
     ));
@@ -43,4 +42,8 @@ class Collection extends Component {
   }
 }
 
-export default withLocalStorage(Collection);
+export default withLocalStorage(Collection, {
+  pathname: "/api/collections",
+  storageName: "collection",
+  itemsName: "lists"
+});

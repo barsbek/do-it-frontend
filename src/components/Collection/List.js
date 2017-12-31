@@ -12,6 +12,7 @@ import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import InputWithDelay from '../InputWithDelay';
 import withCrud from '../withCrud';
+import withLocalStorage from '../withLocalStorage';
 // import Task from './Task';
 
 class CollectionList extends Component {
@@ -73,4 +74,13 @@ class CollectionList extends Component {
   }
 }
 
-export default withCrud(CollectionList);
+const ListWithCrud = withCrud(CollectionList, {
+  name: "list",
+  pathname: "/api/lists"
+});
+
+export default withLocalStorage(ListWithCrud, {
+  storageName: "list",
+  pathname: "/api/lists",
+  itemsName: "tasks"
+});

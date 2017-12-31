@@ -106,4 +106,7 @@ class CollectionPreview extends Component {
   }
 }
 
-export default withCrud(CollectionPreview);
+export default withCrud(CollectionPreview, {
+  name: "collection",
+  pathname: "/api/collections",
+});

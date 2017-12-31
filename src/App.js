@@ -62,21 +62,12 @@ class App extends Component {
           onRequestChange={d => this.openDrawer(d)}
         >
           <UserInfo user={this.props.user} onLogout={this.props.onLogout} />
-          <CollectionPreviews
-            pathname="/api/collections"
-            name="collections"
-            itemsName="collections"
-          />
+          <CollectionPreviews />
         </Drawer>
 
         <div className="app-content">
           <Route path="/collections/:id" render={props => (
-            <Collection
-              id={props.match.params.id}
-              pathname={`/api/collections/${props.match.params.id}`}
-              name={`collections-${props.match.params.id}`}
-              itemsName="lists"
-            />
+            <Collection withID={props.match.params.id} />
           )} />
         </div>
       </div>

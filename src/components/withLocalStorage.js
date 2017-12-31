@@ -3,12 +3,14 @@ import axios from 'axios';
 
 import Storage from '../modules/Storage';
 
-function withLocalStorage(WrappedComponent) {
+function withLocalStorage(WrappedComponent, configs = {}) {
   return class extends Component {
     constructor(props) {
       super(props);
-      this.storage = new Storage(this.props.name);
-      
+
+      this.configs = this.normalizeConfigsWithID(configs);
+
+      this.storage = new Storage(this.configs.storageName);
       this.state = {
         creatable: true,
         loading: !this.storage.data,
@@ -16,16 +18,27 @@ function withLocalStorage(WrappedComponent) {
       }
     }
 
+    normalizeConfigsWithID(configs) {
+      if(this.props.withID) {
+        const id = this.props.withID;
+        return Object.assign(configs, {
+          pathname: `${configs.pathname}/${id}`,
+          name: `${configs.name}-${id}`,
+        })
+      }
+      return configs;
+    }
+
     componentWillMount() {
-      axios.get(this.props.pathname)
+      axios.get(this.configs.pathname)
       .then(res => {
         const { last_update } = res.data;
-        const items = res.data[this.props.itemsName];
+        const items = res.data[this.configs.itemsName];
         if(this.storage.olderThan(last_update)) {
           this.storage.set(items, last_update);
           this.setState({ items, loading: false });
         } else {
-          this.setState({ loading: false })
+          this.setState({ loading: false });
         }
       })
       .catch(err => {

@@ -10,7 +10,7 @@ import ContentRemove from 'material-ui/svg-icons/content/remove';
 import Storage from '../../modules/Storage';
 import withCrud from '../withCrud';
 import withLocalStorage from '../withLocalStorage';
-import PreviewWithCrud from './Preview';
+import CollectionPreview from './Preview';
 
 class CollectionPreviews extends Component {
   constructor(props) {
@@ -35,11 +35,9 @@ class CollectionPreviews extends Component {
 
   renderCollections() {
     return this.props.items.map((c, index) => (
-      <PreviewWithCrud
-        key={c.id || "new"}
+      <CollectionPreview
+        key={c.id}
         item={c}
-        name="collection"
-        pathname="/api/collections"
         removable={this.state.removable}
         {...this.props.storage}
       />
@@ -64,4 +62,8 @@ class CollectionPreviews extends Component {
   }
 }
 
-export default withLocalStorage(CollectionPreviews);
+export default withLocalStorage(CollectionPreviews, {
+  pathname: "/api/collections",
+  storageName: "collections",
+  itemsName: "collections"
+});
