@@ -5,10 +5,14 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 
 import UserInfo from './user/UserInfo';
-import CollectionPreviews from './components/Collection/Previews';
+import Previews from './components/Collection/Previews';
+import withLocalStorage from './components/withLocalStorage';
+
 import Collection from './components/Collection';
 
 import './App.css';
+
+const PreviewsWithStorage = withLocalStorage(Previews);
 
 class App extends Component {
   constructor(props) {
@@ -61,11 +65,14 @@ class App extends Component {
           onRequestChange={d => this.openDrawer(d)}
         >
           <UserInfo user={this.props.user} onLogout={this.props.onLogout} />
-          <CollectionPreviews />
+          <PreviewsWithStorage
+            pathname="/api/collections"
+            name="collections"
+          />
         </Drawer>
 
         <div className="app-content">
-          <Route path="/collections/:id" component={Collection} />
+          {/* <Route path="/collections/:id" component={Collection} /> */}
         </div>
       </div>
     )

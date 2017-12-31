@@ -27,8 +27,8 @@ class CollectionPreview extends Component {
   }
 
   handleChange(data) {
-    const c = {...this.props.collection, ...data};
-    if(this.props.collection.id === "new") {
+    const c = {...this.props.item, ...data};
+    if(this.props.item.id === "new") {
       this.props.create(c);
     } else {
       this.props.update(c);
@@ -36,7 +36,7 @@ class CollectionPreview extends Component {
   }
 
   handleIconClick() {
-    const { id } = this.props.collection;
+    const { id } = this.props.item;
     if(this.props.removable) {
       this.props.delete(id);
     } else if(id !== "new") {
@@ -65,7 +65,7 @@ class CollectionPreview extends Component {
   }
 
   render() {
-    const { id, title, finish_at } = this.props[this.props.name];
+    const { id, title, finish_at } = this.props.item;
     return (
       <ListItem
         style={{ height: 50 }}
