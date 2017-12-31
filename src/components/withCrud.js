@@ -42,11 +42,11 @@ function withCrud(WrappedComponent) {
     //   .catch(err => alert(err));
     // }
 
-    delete(id) {
-      if(id === "new")
-        return this.props.onDelete({item: { id }});
-  
-      axios.delete(`${this.props.pathname}/${id}`)
+    delete(item) {
+      if(item.id === "new")
+        return this.props.onDelete({ item });
+      
+      axios.delete(`${this.props.pathname}/${item.id}`)
       .then(res => {
         const item = res.data[this.props.name];
         const { last_update }= res.data;

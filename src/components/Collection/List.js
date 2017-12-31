@@ -7,6 +7,8 @@ import Subheader from 'material-ui/Subheader';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import CircularProgress from 'material-ui/CircularProgress';
+import IconButton from 'material-ui/IconButton';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import InputWithDelay from '../InputWithDelay';
 // import Task from './Task';
@@ -33,7 +35,7 @@ class CollectionList extends Component {
   }
 
   render() {
-    const { title } = this.props.item;
+    const { id, title } = this.props.item;
     return (
       <Paper zDepth={1} className="list">
         <Subheader style={{ paddingLeft: 0 }}>         
@@ -43,6 +45,11 @@ class CollectionList extends Component {
             onChangeStop={title => this.props.change({ title })}
             fullWidth={true}
           />
+          <IconButton onClick={
+            () => this.props.delete(this.props.item)
+          }>
+            <ContentClear />
+          </IconButton>
         </Subheader>
         <div className="list-tasks">
           {/* {this.state.loading ? 
