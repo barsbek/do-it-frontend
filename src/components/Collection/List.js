@@ -14,7 +14,7 @@ import InputWithDelay from '../InputWithDelay';
 import withCrud from '../withCrud';
 import withItems from '../withItems';
 import TaskCreateButton from './TaskCreateButton';
-// import Task from './Task';
+import Task from './Task';
 
 class CollectionList extends Component {
   constructor(props) {
@@ -24,12 +24,11 @@ class CollectionList extends Component {
 
   renderTasks() {
     return this.props.items.map((t, index) => (
-      <div key={t.id || "new"}>{t.title}</div>
-      // <Task
-      //   key={t.id || "new"}
-      //   list={this.props.list}
-      //   task={t}
-      // />
+      <Task
+        key={t.id}
+        item={t}
+        {...this.props.handlers}
+      />
     ))
   }
 
@@ -52,10 +51,6 @@ class CollectionList extends Component {
         </Subheader>
         <div className="list-tasks">
           {this.renderTasks()}
-          {/* {this.state.loading ? 
-            <CircularProgress size={24}/> : 
-            this.renderTasks()
-          } */}
         </div>
         <TaskCreateButton 
           listID={this.props.withID}
