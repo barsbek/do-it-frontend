@@ -106,7 +106,9 @@ class CollectionPreview extends Component {
   }
 }
 
-export default withCrud(CollectionPreview, {
+const CollectionWithRoute = withRouter(CollectionPreview);
+
+export default withCrud({
   name: "collection",
   pathname: "/api/collections",
-});
+})(CollectionWithRoute);

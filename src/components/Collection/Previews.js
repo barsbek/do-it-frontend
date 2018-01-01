@@ -62,8 +62,8 @@ class CollectionPreviews extends Component {
   }
 }
 
-export default withLocalStorage(CollectionPreviews, {
+export default withLocalStorage({
   pathname: "/api/collections",
   storageName: "collections",
   itemsName: "collections"
-});
+})(CollectionPreviews);

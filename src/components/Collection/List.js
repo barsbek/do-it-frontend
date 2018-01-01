@@ -74,13 +74,13 @@ class CollectionList extends Component {
   }
 }
 
-const ListWithCrud = withCrud(CollectionList, {
+const ListWithCrud = withCrud({
   name: "list",
   pathname: "/api/lists"
-});
+})(CollectionList);
 
-export default withLocalStorage(ListWithCrud, {
+export default withLocalStorage({
   storageName: "list",
   pathname: "/api/lists",
   itemsName: "tasks"
-});
+})(ListWithCrud);
