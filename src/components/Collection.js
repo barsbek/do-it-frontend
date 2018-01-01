@@ -5,7 +5,7 @@ import update from 'immutability-helper';
 
 import NewListButton from './NewListButton';
 import withCrud from './withCrud';
-import withLocalStorage from './withLocalStorage';
+import withItems from './withItems';
 import CollectionList from './Collection/List';
 
 import './Collection.css';
@@ -22,7 +22,7 @@ class Collection extends Component {
         key={item.id}
         withID={item.id}
         item={{...item, collection_id: this.props.withID}}
-        {...this.props.storage}
+        {...this.props.handlers}
       />
     ));
   }
@@ -35,7 +35,7 @@ class Collection extends Component {
         </div>
         <NewListButton onClick={
           () => {
-            this.props.storage.newItem({ title: '' })
+            this.props.handlers.newItem({ title: '' })
           }
         }/>
       </div>
@@ -43,7 +43,7 @@ class Collection extends Component {
   }
 }
 
-export default withLocalStorage({
+export default withItems({
   pathname: "/api/collections",
   storageName: "collection",
   itemsName: "lists"

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import Storage from '../modules/Storage';
 
-function withLocalStorage(options) {
+function withItems(options) {
   return function Wrapper(WrappedComponent) {
     return class extends Component {
       constructor(props) {
@@ -19,7 +19,6 @@ function withLocalStorage(options) {
           items: this.storage.data || []
         }
       }
-
 
       componentWillMount() {
         const id = this.props.withID;
@@ -91,28 +90,35 @@ function withLocalStorage(options) {
         return null;
       }
 
-      onNewItem(item) {
+      onNewItem(item, append = false) {
         if(this.state.creatable) {
           item.id = "new";
-          this.setState(prevState => ({
-            items: [item, ...prevState.items],
-            creatable: false
-          }));
+          this.setState(prevState => {
+            const items = append ?
+              [...prevState.items, item] :
+              [item, ...prevState.items]
+            return { items, creatable: false }
+          });
         }
       }
 
-      render() {
-        const storage = {
+      getHandlers() {
+        const handlers = {
           onCreate: this.onCreate.bind(this),
           onUpdate: this.onUpdate.bind(this),
           onDelete: this.onDelete.bind(this),
           newItem:  this.onNewItem.bind(this),
         }
+        return options.namespace ?
+          { [options.namespace]: handlers } : handlers;
+      }
+
+      render() {
         return (
           <WrappedComponent
             {...this.props}
             {...this.state}
-            storage={storage}
+            handlers={this.getHandlers()}
           />
         )
       }
@@ -120,4 +126,4 @@ function withLocalStorage(options) {
   }
 }
 
-export default withLocalStorage;
+export default withItems;

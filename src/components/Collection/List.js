@@ -12,7 +12,7 @@ import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import InputWithDelay from '../InputWithDelay';
 import withCrud from '../withCrud';
-import withLocalStorage from '../withLocalStorage';
+import withItems from '../withItems';
 // import Task from './Task';
 
 class CollectionList extends Component {
@@ -79,8 +79,8 @@ const ListWithCrud = withCrud({
   pathname: "/api/lists"
 })(CollectionList);
 
-export default withLocalStorage({
-  storageName: "list",
+export default withItems({
   pathname: "/api/lists",
+  storageName: "list",
   itemsName: "tasks"
 })(ListWithCrud);

@@ -9,7 +9,7 @@ import ContentRemove from 'material-ui/svg-icons/content/remove';
 
 import Storage from '../../modules/Storage';
 import withCrud from '../withCrud';
-import withLocalStorage from '../withLocalStorage';
+import withItems from '../withItems';
 import CollectionPreview from './Preview';
 
 class CollectionPreviews extends Component {
@@ -25,7 +25,7 @@ class CollectionPreviews extends Component {
     const finish_at = new Date();
     const newCollection = { title: '', finish_at, id: "new" };
     
-    this.props.storage.newItem(newCollection);
+    this.props.handlers.newItem(newCollection);
   }
 
   toggleRemovable() {
@@ -39,7 +39,7 @@ class CollectionPreviews extends Component {
         key={c.id}
         item={c}
         removable={this.state.removable}
-        {...this.props.storage}
+        {...this.props.handlers}
       />
     ));
   }
@@ -62,7 +62,7 @@ class CollectionPreviews extends Component {
   }
 }
 
-export default withLocalStorage({
+export default withItems({
   pathname: "/api/collections",
   storageName: "collections",
   itemsName: "collections"
