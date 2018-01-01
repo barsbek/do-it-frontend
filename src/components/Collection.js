@@ -14,11 +14,9 @@ import Storage from '../modules/Storage';
 class Collection extends Component {
   constructor(props) {
     super(props);
-    this.renderLists = this.renderLists.bind(this);
   }
 
   renderLists() {
-    console.log(this.props.items);
     return this.props.items.map(item => (
       <CollectionList
         key={item.id}
@@ -37,7 +35,6 @@ class Collection extends Component {
         </div>
         <NewListButton onClick={
           () => {
-            console.log('clicked');
             this.props.storage.newItem({ title: '' })
           }
         }/>
