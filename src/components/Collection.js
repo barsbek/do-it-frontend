@@ -18,6 +18,7 @@ class Collection extends Component {
   }
 
   renderLists() {
+    console.log(this.props.items);
     return this.props.items.map(item => (
       <CollectionList
         key={item.id}
@@ -35,7 +36,10 @@ class Collection extends Component {
           {this.renderLists()}
         </div>
         <NewListButton onClick={
-          () => this.props.storage.newItem({ id: "new", title: '' })
+          () => {
+            console.log('clicked');
+            this.props.storage.newItem({ title: '' })
+          }
         }/>
       </div>
     );

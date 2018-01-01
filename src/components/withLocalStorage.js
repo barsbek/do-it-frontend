@@ -9,9 +9,10 @@ function withLocalStorage(options) {
       constructor(props) {
         super(props);
         const id = this.props.withID;
-        const storageName =  id ? `${options.storageName}/${id}` : options.storageName;
-        this.storage = new Storage(storageName);
+        const storageName =  id && id !== 'new' ?
+          `${options.storageName}-${id}` : options.storageName;
 
+        this.storage = new Storage(storageName);
         this.state = {
           creatable: true,
           loading: !this.storage.data,
@@ -23,6 +24,7 @@ function withLocalStorage(options) {
       componentWillMount() {
         const id = this.props.withID;
         if(id === "new") return false;        
+
         const pathname = id ? `${options.pathname}/${id}` : options.pathname;
         axios.get(pathname)
         .then(res => {
@@ -91,6 +93,7 @@ function withLocalStorage(options) {
 
       onNewItem(item) {
         if(this.state.creatable) {
+          item.id = "new";
           this.setState(prevState => ({
             items: [item, ...prevState.items],
             creatable: false
