@@ -13,27 +13,24 @@ import ContentClear from 'material-ui/svg-icons/content/clear';
 import InputWithDelay from '../InputWithDelay';
 import withCrud from '../withCrud';
 import withItems from '../withItems';
+import TaskCreateButton from './TaskCreateButton';
 // import Task from './Task';
 
 class CollectionList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tasks: [],
-      temps: [],
-      loading: true,
-    };
+
   }
 
   renderTasks() {
-    this.state.tasks.map((t, index) => {
+    return this.props.items.map((t, index) => (
       <div key={t.id || "new"}>{t.title}</div>
       // <Task
       //   key={t.id || "new"}
       //   list={this.props.list}
       //   task={t}
       // />
-    })
+    ))
   }
 
   render() {
@@ -54,20 +51,15 @@ class CollectionList extends Component {
           </IconButton>
         </Subheader>
         <div className="list-tasks">
+          {this.renderTasks()}
           {/* {this.state.loading ? 
             <CircularProgress size={24}/> : 
             this.renderTasks()
           } */}
         </div>
-        <TextField
-          hintText="+"
-          onKeyPress={this.addTask}
-
-          // move styles into separate file
-          fullWidth={true}
-          inputStyle={{ paddingLeft: 10 }}
-          hintStyle={{ textAlign: 'center', width: '100%' }}
-          underlineStyle={{ bottom: 0 }}
+        <TaskCreateButton 
+          listID={this.props.withID}
+          { ...this.props.handlers }
         />
       </Paper>
     )
