@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
 import List from 'material-ui/List/List';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -20,8 +21,32 @@ class CollectionPreviews extends Component {
       creatable: props.creatable
     }
   }
+  
+  componentWillUpdate(nextProps, nextState) {
+    const { creatable, items } = this.props;
+    const nextItems = nextProps.items;
+    if(creatable && nextItems.length < items.length) {
+      this.handleRemove(items, nextItems);
+    }
+  }
 
-  newCollection() {
+  handleRemove(items, nextItems) {
+    for(let i in items) {
+      i = parseInt(i);
+      const item = items[i];
+      if(nextItems.indexOf(item) > -1) continue;
+
+      // TODO: redirect only on current collection's removal
+      if(i+1 < items.length) {
+        this.props.history.push(`/collections/${items[i+1].id}`)
+      } else {
+        if(items[0] === item) this.props.history.push('/');
+        else this.props.history.push(`/collections/${items[0].id}`)
+      }
+    }
+  }
+
+  handleNewCollection() {
     const finish_at = new Date();
     const newCollection = { title: '', finish_at, id: "new" };
     
@@ -49,7 +74,7 @@ class CollectionPreviews extends Component {
     return (
       <div className="collection-previews">
         <div className="collection-previews-actions">
-          <IconButton onClick={this.newCollection.bind(this)}>
+          <IconButton onClick={this.handleNewCollection.bind(this)}>
             <ContentAdd />
           </IconButton>
           <IconButton onClick={this.toggleRemovable.bind(this)}>
@@ -62,8 +87,10 @@ class CollectionPreviews extends Component {
   }
 }
 
+const PreviewsWithRouter = withRouter(CollectionPreviews);
+
 export default withItems({
   pathname: "/api/collections",
   storageName: "collections",
   itemsName: "collections"
-})(CollectionPreviews);
+})(PreviewsWithRouter);
