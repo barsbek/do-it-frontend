@@ -17,8 +17,7 @@ function withItems(options) {
         }
       }
 
-      setStorage() {
-        const id = this.props.withID;
+      setStorage(id = this.props.withID) {
         const storageName =  id && id !== 'new' ?
           `${options.storageName}-${id}` : options.storageName;
 
@@ -50,11 +49,8 @@ function withItems(options) {
       componentWillReceiveProps(nextProps) {
         const location = this.props.location;
         if(location && nextProps.location !== location) {
-          this.setStorage();
-          this.setState({
-            loading: !this.storage.data,
-            items: this.storage.data || []
-          })
+          this.setStorage(nextProps.withID);
+          this.setState({ items: this.storage.data || [] })
         }
       }
 
