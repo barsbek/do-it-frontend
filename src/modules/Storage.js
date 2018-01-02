@@ -1,8 +1,12 @@
 class Storage {
-  constructor(name, storage = window.localStorage) {
+  constructor(prefix, id, storage = window.localStorage) {
     this.storage = storage;
-    this.name = name;
-    const item = JSON.parse(this.storage.getItem( name ));
+    this.prefix = prefix;
+
+    const storageName = (id && id !== 'new') ? `${prefix}-${id}` : prefix;
+
+    this.storageName = storageName;
+    const item = JSON.parse(this.storage.getItem( storageName ));
     if(item) {
       this.data = item.data;
       this.updated_at = item.update_at;
@@ -18,9 +22,24 @@ class Storage {
       this.data = data;
       this.updated_at = update_at;
       const s = JSON.stringify({ data, update_at });
-      return this.storage.setItem(this.name, s);
+      return this.storage.setItem(this.storageName, s);
     } catch(e) {
       return false;
+    }
+  }
+
+  remove() {
+    this.storage.removeItem(this.storageName);
+  }
+
+  clearSubItems(id) {
+    if(this.prefix === 'collections') {
+      const lists = new Storage(`collection-${id}`).data;
+      lists.forEach(list => this.storage.removeItem(`list-${list.id}`));
+      this.storage.removeItem(`collection-${id}`);
+    }
+    if(this.prefix === 'collection') {
+      this.storage.removeItem(`list-${id}`)
     }
   }
 

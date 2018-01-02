@@ -18,10 +18,7 @@ function withItems(options) {
       }
 
       setStorage(id = this.props.withID) {
-        const storageName =  id && id !== 'new' ?
-          `${options.storageName}-${id}` : options.storageName;
-
-        this.storage = new Storage(storageName);
+        this.storage = new Storage(options.storageName, id);
       }
 
       componentWillMount() {
@@ -89,6 +86,7 @@ function withItems(options) {
         last_update = last_update ? last_update : this.lastUpdateFrom(items);
         const creatable = item.id === 'new' ? true : this.state.creatable;
         this.storage.set(items, last_update);
+        this.storage.clearSubItems(item.id);
         this.setState({ items, creatable });
       }
 
