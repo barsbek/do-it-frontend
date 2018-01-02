@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
@@ -26,10 +26,10 @@ class App extends Component {
     this.openDrawer = this.openDrawer.bind(this);
   }
 
-  componentWillMount() {
-    this.props.history.listen((location, action) => {
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.location !== this.props.location) {
       this.openDrawer(false);
-    }) 
+    }
   }
 
   notifyAboutError(err) {
@@ -75,4 +75,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+export default App;
