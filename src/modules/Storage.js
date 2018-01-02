@@ -28,10 +28,6 @@ class Storage {
     }
   }
 
-  remove() {
-    this.storage.removeItem(this.storageName);
-  }
-
   clearSubItems(id) {
     if(this.prefix === 'collections') {
       const lists = new Storage(`collection-${id}`).data;

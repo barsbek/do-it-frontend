@@ -15,11 +15,35 @@ import withCrud from '../withCrud';
 import withItems from '../withItems';
 import TaskCreateButton from './TaskCreateButton';
 import Task from './Task';
+import AlertDialog from '../AlertDialog';
 
 class CollectionList extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      dialogOpen: false,
+    }
 
+    this.handleDialogDelete = this.handleDialogDelete.bind(this);
+    this.handleDeleteButton = this.handleDeleteButton.bind(this);
+    this.closeDialog = this.closeDialog.bind(this);
+  }
+
+  handleDialogDelete() {
+    this.props.crud.delete(this.props.item);
+    this.closeDialog();
+  }
+
+  handleDeleteButton() {
+    if(this.props.item.id !== 'new') {
+      this.setState({ dialogOpen: true });
+    } else {
+      this.props.crud.delete(this.props.item);
+    }
+  }
+
+  closeDialog() {
+    this.setState({ dialogOpen: false });
   }
 
   renderTasks() {
@@ -43,9 +67,7 @@ class CollectionList extends Component {
             onChangeStop={title => this.props.crud.change({ title })}
             fullWidth={true}
           />
-          <IconButton onClick={
-            () => this.props.crud.delete(this.props.item)
-          }>
+          <IconButton onClick={this.handleDeleteButton}>
             <ContentClear />
           </IconButton>
         </Subheader>
@@ -55,6 +77,12 @@ class CollectionList extends Component {
         <TaskCreateButton 
           listID={this.props.withID}
           { ...this.props.handlers }
+        />
+        <AlertDialog
+          open={this.state.dialogOpen}
+          title="Delete list?"
+          onApprove={this.handleDialogDelete}
+          onClose={this.closeDialog}
         />
       </Paper>
     )
