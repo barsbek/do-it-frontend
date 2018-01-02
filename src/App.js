@@ -67,7 +67,7 @@ class App extends Component {
 
         <div className="app-content">
           <Route path="/collections/:id" render={props => (
-            <Collection withID={props.match.params.id} />
+            <Collection {...props} withID={props.match.params.id} />
           )} />
         </div>
       </div>

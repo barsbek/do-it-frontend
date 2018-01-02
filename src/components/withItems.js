@@ -8,16 +8,21 @@ function withItems(options) {
     return class extends Component {
       constructor(props) {
         super(props);
-        const id = this.props.withID;
-        const storageName =  id && id !== 'new' ?
-          `${options.storageName}-${id}` : options.storageName;
+        this.setStorage();
 
-        this.storage = new Storage(storageName);
         this.state = {
           creatable: true,
           loading: !this.storage.data,
           items: this.storage.data || []
         }
+      }
+
+      setStorage() {
+        const id = this.props.withID;
+        const storageName =  id && id !== 'new' ?
+          `${options.storageName}-${id}` : options.storageName;
+
+        this.storage = new Storage(storageName);
       }
 
       componentWillMount() {
@@ -40,6 +45,17 @@ function withItems(options) {
           alert(err);
           this.setState({ loading: false });
         });
+      }
+
+      componentWillReceiveProps(nextProps) {
+        const location = this.props.location;
+        if(location && nextProps.location !== location) {
+          this.setStorage();
+          this.setState({
+            loading: !this.storage.data,
+            items: this.storage.data || []
+          })
+        }
       }
 
       onCreate(item) {

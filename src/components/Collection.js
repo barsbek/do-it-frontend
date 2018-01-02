@@ -12,10 +12,6 @@ import './Collection.css';
 import Storage from '../modules/Storage';
 
 class Collection extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   renderLists() {
     return this.props.items.map(item => (
       <CollectionList
