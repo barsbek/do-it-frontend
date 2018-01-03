@@ -72,6 +72,7 @@ class CollectionList extends Component {
       <Paper zDepth={1} className="list">
         <Subheader style={{ paddingLeft: 0 }}>         
           <InputWithDelay
+            focus={this.props.item.id === 'new'}
             value={title}
             name="title"
             onChangeStop={title => this.props.crud.change({ title })}

@@ -12,6 +12,10 @@ import './Collection.css';
 import Storage from '../modules/Storage';
 
 class Collection extends Component {
+  handleNewList() {
+    this.props.handlers.newItem({ title: '' });
+  }
+
   renderLists() {
     return this.props.items.map(item => (
       <CollectionList
@@ -29,11 +33,9 @@ class Collection extends Component {
         <div className="collection-lists">
           {this.renderLists()}
         </div>
-        <NewListButton onClick={
-          () => {
-            this.props.handlers.newItem({ title: '' })
-          }
-        }/>
+        <NewListButton
+          onClick={this.handleNewList.bind(this)}
+        />
       </div>
     );
   }
