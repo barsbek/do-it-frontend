@@ -35,11 +35,9 @@ class CollectionList extends Component {
   }
 
   handleDeleteButton() {
-    if(this.props.item.id !== 'new') {
-      this.setState({ dialogOpen: true });
-    } else {
-      this.props.crud.delete(this.props.item);
-    }
+    const { id } = this.props.item;
+    if(id !== 'new') this.setState({ dialogOpen: true });
+    else             this.props.crud.delete(this.props.item);
   }
 
   closeDialog() {
