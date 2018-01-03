@@ -13,7 +13,7 @@ import ContentClear from 'material-ui/svg-icons/content/clear';
 import InputWithDelay from '../InputWithDelay';
 import withCrud from '../withCrud';
 import withItems from '../withItems';
-import TaskCreateButton from './TaskCreateButton';
+import TaskCreateField from './TaskCreateField';
 import Task from './Task';
 import AlertDialog from '../AlertDialog';
 import Storage from '../../modules/Storage';
@@ -84,7 +84,7 @@ class CollectionList extends Component {
         <div className="list-tasks">
           {this.renderTasks()}
         </div>
-        <TaskCreateButton 
+        <TaskCreateField 
           listID={this.props.withID}
           { ...this.props.handlers }
         />
