@@ -23,7 +23,7 @@ function withItems(options) {
 
       componentWillMount() {
         const id = this.props.withID;
-        if(id === "new") return false;        
+        if( this.isTempItem(id) ) return false;        
 
         const pathname = id ? `${options.pathname}/${id}` : options.pathname;
         axios.get(pathname)
@@ -51,14 +51,19 @@ function withItems(options) {
         }
       }
 
+      isTempItem(id) {
+        return `${id}`.includes('new');
+      }
+
       onCreate(item) {
-        const items = this.state.items.map(c => {
-          if(c.id === "new") {
+        let items = this.state.items.slice();
+        for(let i = 0; i<items.length; i++) {
+          if( this.isTempItem(items[i].id) ) {
             this.setState({ creatable: true });
-            return item;
+            items[i] = item;
+            break;
           }
-          return c;
-        });
+        }
 
         this.updateLocal(items, item.updated_at);
       }
@@ -84,7 +89,7 @@ function withItems(options) {
         });
 
         last_update = last_update ? last_update : this.lastUpdateFrom(items);
-        const creatable = item.id === 'new' ? true : this.state.creatable;
+        const creatable = this.isTempItem(item.id) ? true : this.state.creatable;
         this.storage.set(items, last_update);
         this.setState({ items, creatable });
       }
@@ -99,27 +104,25 @@ function withItems(options) {
         return null;
       }
 
-      onNewItem(item, append = false) {
+      onNewItem(item, append = false, creatable = false) {
         if(this.state.creatable) {
-          item.id = "new";
+          if(!item.id) item.id = "new";
           this.setState(prevState => {
             const items = append ?
               [...prevState.items, item] :
               [item, ...prevState.items]
-            return { items, creatable: false }
+            return { items, creatable: creatable }
           });
         }
       }
 
       getHandlers() {
-        const handlers = {
+        return {
           onCreate: this.onCreate.bind(this),
           onUpdate: this.onUpdate.bind(this),
           onDelete: this.onDelete.bind(this),
           newItem:  this.onNewItem.bind(this),
         }
-        return options.namespace ?
-          { [options.namespace]: handlers } : handlers;
       }
 
       render() {

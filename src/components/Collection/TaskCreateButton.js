@@ -7,14 +7,21 @@ class TaskCreateButton extends Component {
     super(props);
 
     this.addTask = this.addTask.bind(this);
+    this.tempID = 1;
   }
 
   addTask(e) {
     if(e.key === 'Enter') {
-      const task = { title: e.target.value, list_id: this.props.listID }
-      this.props.newItem(task, true);
+      const task = {
+        id: `new-${this.tempID}`,
+        title: e.target.value,
+        list_id: this.props.listID
+      }
+      const options = { append: true, creatable: true }
+      this.props.newItem(task, ...options);
       this.props.crud.create(task);
       e.target.value = '';
+      this.tempID++;
     }
   }
 
