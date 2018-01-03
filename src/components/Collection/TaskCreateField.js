@@ -17,8 +17,7 @@ class TaskCreateField extends Component {
         title: e.target.value,
         list_id: this.props.listID
       }
-      const options = { append: true, creatable: true }
-      this.props.newItem(task, ...options);
+      this.props.newItem(task, true, true);
       this.props.crud.create(task);
       e.target.value = '';
       this.tempID++;

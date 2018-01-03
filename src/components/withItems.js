@@ -110,8 +110,8 @@ function withItems(options) {
           this.setState(prevState => {
             const items = append ?
               [...prevState.items, item] :
-              [item, ...prevState.items]
-            return { items, creatable: creatable }
+              [item, ...prevState.items];
+            return { items, creatable }
           });
         }
       }
