@@ -4,10 +4,10 @@ import { Route } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 
-import UserInfo from './user/UserInfo';
-import CollectionPreviews from './components/Collection/Previews';
+import UserInfo from './User/Info';
+import Collection from './Collection';
+import CollectionPreviews from './Collection/Previews';
 
-import Collection from './components/Collection';
 
 import './App.css';
 

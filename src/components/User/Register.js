@@ -1,8 +1,8 @@
 import React from 'react';
-import Form from './Form';
+import UserForm from './Form';
 
-const Register = props => (
-  <Form
+const UserRegister = props => (
+  <UserForm
     labels={{
       name: "Full name",
       email: "Email",
@@ -14,4 +14,4 @@ const Register = props => (
     {...props} />
 );
 
-export default Register;
+export default UserRegister;

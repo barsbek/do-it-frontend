@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import './Form.css';
 
-class Form extends Component {
+class UserForm extends Component {
   constructor(props) {
     super(props);
     this.labels = props.labels || {};
@@ -92,4 +92,4 @@ class Form extends Component {
   }
 }
 
-export default withRouter(Form);
+export default withRouter(UserForm);

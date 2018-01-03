@@ -10,12 +10,14 @@ import CircularProgress from 'material-ui/CircularProgress';
 import IconButton from 'material-ui/IconButton';
 import ContentClear from 'material-ui/svg-icons/content/clear';
 
-import InputWithDelay from '../InputWithDelay';
-import withCrud from '../withCrud';
-import withItems from '../withItems';
-import TaskCreateField from './TaskCreateField';
-import Task from './Task';
-import AlertDialog from '../AlertDialog';
+import InputWithDelay from '../common/InputWithDelay';
+import AlertDialog from '../common/AlertDialog';
+
+import withCrud from '../hocs/withCrud';
+import withItems from '../hocs/withItems';
+
+import TaskCreateField from '../Task/CreateField';
+import Task from '../Task';
 import Storage from '../../modules/Storage';
 
 const STORAGE_NAME = 'list';

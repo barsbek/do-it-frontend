@@ -5,8 +5,8 @@ import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import NavigationCancel from 'material-ui/svg-icons/navigation/cancel';
 
-import InputWithDelay from '../InputWithDelay';
-import withCrud from '../withCrud';
+import InputWithDelay from '../common/InputWithDelay';
+import withCrud from '../hocs/withCrud';
 
 class Task extends Component {
   handleUpdate(data) {

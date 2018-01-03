@@ -9,8 +9,8 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 
 import Storage from '../../modules/Storage';
-import withCrud from '../withCrud';
-import withItems from '../withItems';
+import withCrud from '../hocs/withCrud';
+import withItems from '../hocs/withItems';
 import CollectionPreview from './Preview';
 
 class CollectionPreviews extends Component {
@@ -48,7 +48,7 @@ class CollectionPreviews extends Component {
 
   handleNewCollection() {
     const finish_at = new Date();
-    const newCollection = { title: '', finish_at, id: "new" };
+    const newCollection = { title: '', finish_at };
     
     this.props.handlers.newItem(newCollection);
   }

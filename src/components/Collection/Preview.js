@@ -11,8 +11,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import ContentClear from 'material-ui/svg-icons/content/clear';
 
-import InputWithDelay from '../InputWithDelay'
-import withCrud from '../withCrud';
+import InputWithDelay from '../common/InputWithDelay'
+import withCrud from '../hocs/withCrud';
 import Storage from '../../modules/Storage';
 
 class CollectionPreview extends Component {

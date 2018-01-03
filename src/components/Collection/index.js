@@ -3,13 +3,12 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import update from 'immutability-helper';
 
-import NewListButton from './NewListButton';
-import withCrud from './withCrud';
-import withItems from './withItems';
-import CollectionList from './Collection/List';
-
-import './Collection.css';
-import Storage from '../modules/Storage';
+import './index.css';
+import NewListButton from '../List/AddButton';
+import withCrud from '../hocs/withCrud';
+import withItems from '../hocs/withItems';
+import List from '../List';
+import Storage from '../../modules/Storage';
 
 class Collection extends Component {
   handleNewList() {
@@ -18,7 +17,7 @@ class Collection extends Component {
 
   renderLists() {
     return this.props.items.map(item => (
-      <CollectionList
+      <List
         key={item.id}
         withID={item.id}
         item={{...item, collection_id: this.props.withID}}

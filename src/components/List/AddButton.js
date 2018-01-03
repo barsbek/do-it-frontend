@@ -8,7 +8,7 @@ const style = {
   right: 16
 }
 
-class NewListButton extends Component {
+class ListAddButton extends Component {
   render() {
     return (   
       <FloatingActionButton onClick={this.props.onClick}
@@ -19,4 +19,4 @@ class NewListButton extends Component {
   }
 }
 
-export default NewListButton;
+export default ListAddButton;

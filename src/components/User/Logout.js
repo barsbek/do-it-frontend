@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import url from 'url';
 
-class Logout extends Component {
+class UserLogout extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -32,4 +32,4 @@ class Logout extends Component {
   }
 }
 
-export default withRouter(Logout);
+export default withRouter(UserLogout);

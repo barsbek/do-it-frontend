@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
-import withCrud from '../withCrud';
+
+import withCrud from '../hocs/withCrud';
 
 class TaskCreateField extends Component {
   constructor(props) {

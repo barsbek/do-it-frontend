@@ -4,11 +4,10 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import './index.css';
-import App from './App';
-import PrivateRoute from './common/PrivateRoute';
-import Login from './user/LoginForm';
-import Register from './user/Register';
+import App from './components/App';
+import PrivateRoute from './components/common/PrivateRoute';
+import UserLogin from './components/User/Login';
+import UserRegister from './components/User/Register';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -16,8 +15,8 @@ const Main = () => (
   <MuiThemeProvider>
     <Router>
       <Switch>
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={UserRegister} />
+        <Route exact path="/login" component={UserLogin} />
         <PrivateRoute path="/" component={App} />
       </Switch>
     </Router>

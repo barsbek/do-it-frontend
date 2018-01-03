@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import Storage from '../modules/Storage';
+import Storage from '../../modules/Storage';
 
 function withItems(options) {
   return function Wrapper(WrappedComponent) {
