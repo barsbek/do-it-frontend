@@ -86,6 +86,7 @@ class CollectionList extends Component {
         </div>
         <TaskCreateField 
           listID={this.props.withID}
+          disabled={this.props.withID === 'new'}
           { ...this.props.handlers }
         />
         <AlertDialog
