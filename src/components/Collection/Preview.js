@@ -35,7 +35,11 @@ class CollectionPreview extends Component {
   clearStorage() {
     const storageName = `collection-${this.props.item.id}`;
     const lists = new Storage(storageName).data;
-    lists.forEach(list => Storage.delete(`list-${list.id}`));
+    if(lists) {
+      lists.forEach(list => {
+        Storage.delete(`list-${list.id}`)
+      });
+    }
     Storage.delete(storageName);
   }
 
