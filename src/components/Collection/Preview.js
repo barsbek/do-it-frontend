@@ -13,6 +13,7 @@ import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import InputWithDelay from '../InputWithDelay'
 import withCrud from '../withCrud';
+import Storage from '../../modules/Storage';
 
 class CollectionPreview extends Component {
   constructor(props) {
@@ -25,6 +26,17 @@ class CollectionPreview extends Component {
     this.showTimePicker = this.showTimePicker.bind(this);
     this.updateFinishAt = this.updateFinishAt.bind(this);
     this.handleIconClick = this.handleIconClick.bind(this);
+  }
+
+  componentWillUnmount() {
+    if(this.props.item.id !== 'new') this.clearStorage();
+  }
+
+  clearStorage() {
+    const storageName = `collection-${this.props.item.id}`;
+    const lists = new Storage(storageName).data;
+    lists.forEach(list => Storage.delete(`list-${list.id}`));
+    Storage.delete(storageName);
   }
 
   handleIconClick() {

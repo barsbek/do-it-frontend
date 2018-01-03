@@ -16,6 +16,9 @@ import withItems from '../withItems';
 import TaskCreateButton from './TaskCreateButton';
 import Task from './Task';
 import AlertDialog from '../AlertDialog';
+import Storage from '../../modules/Storage';
+
+const STORAGE_NAME = 'list';
 
 class CollectionList extends Component {
   constructor(props) {
@@ -27,6 +30,15 @@ class CollectionList extends Component {
     this.handleDialogDelete = this.handleDialogDelete.bind(this);
     this.handleDeleteButton = this.handleDeleteButton.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
+  }
+
+  componentWillUnmount() {
+    if( this.props.item.id !== 'new' ) this.clearSubitems()
+  }
+
+  clearSubitems() {
+    const subItemsStorage = `${STORAGE_NAME}-${this.props.item.id}`;
+    Storage.delete(subItemsStorage);
   }
 
   handleDialogDelete() {
@@ -94,6 +106,6 @@ const ListWithCrud = withCrud({
 
 export default withItems({
   pathname: "/api/lists",
-  storageName: "list",
+  storageName: STORAGE_NAME,
   itemsName: "tasks"
 })(ListWithCrud);

@@ -1,6 +1,8 @@
 class Storage {
-  constructor(prefix, id, storage = window.localStorage) {
-    this.storage = storage;
+  static storage = window.localStorage;
+
+  constructor(prefix, id) {
+    this.storage = Storage.storage;
     this.prefix = prefix;
 
     const storageName = (id && id !== 'new') ? `${prefix}-${id}` : prefix;
@@ -28,22 +30,15 @@ class Storage {
     }
   }
 
-  clearSubItems(id) {
-    if(this.prefix === 'collections') {
-      const lists = new Storage(`collection-${id}`).data;
-      lists.forEach(list => this.storage.removeItem(`list-${list.id}`));
-      this.storage.removeItem(`collection-${id}`);
-    }
-    if(this.prefix === 'collection') {
-      this.storage.removeItem(`list-${id}`)
-    }
-  }
-
   olderThan(update_at) {
     if(!this.updated_at || update_at > this.updated_at) {
       return true;
     }
     return false;
+  }
+    
+  static delete(itemName) {
+    this.storage.removeItem(itemName);
   }
 }
 
