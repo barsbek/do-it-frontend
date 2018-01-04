@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-import CircularProgress from 'material-ui/CircularProgress'
+import CircularProgress from 'material-ui/CircularProgress';
+
+import withNotifiers from '../hocs/withNotifiers';
 
 class PrivateRoute extends Component {
   constructor(props) {
@@ -17,7 +19,10 @@ class PrivateRoute extends Component {
     .then(res => {
       this.setState({ user: res.data, loading: false })
     })
-    .catch(err => this.setState({ loading: false }))
+    .catch(err => {
+      this.setState({ loading: false });
+      if(this.props.notifiers) this.props.notifiers.error(err);
+    })
   }
 
   handleLogout() {
@@ -41,4 +46,4 @@ class PrivateRoute extends Component {
   }
 }
 
-export default PrivateRoute;
+export default withNotifiers(PrivateRoute);

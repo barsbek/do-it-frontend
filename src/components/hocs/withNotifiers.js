@@ -45,10 +45,12 @@ export default function withNotifiers(WrappedComponent) {
     render() {
       return [
         <WrappedComponent
+          key="component-with-notifiers"
           {...this.props}
           notifiers={this.getNotifiers()}
         />,
         <Snackbar
+          key="notifier"
           open={this.state.open}
           message={this.state.message}
           autoHideDuration={1000}

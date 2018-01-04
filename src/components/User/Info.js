@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
-import { ListItem } from 'material-ui/List';
-import IconButton from 'material-ui/IconButton';
-import Avatar from 'material-ui/Avatar';
-import DeviceWallpaper from 'material-ui/svg-icons/device/wallpaper';
-import ActionExit from 'material-ui/svg-icons/action/exit-to-app';
+import { ListItem }     from 'material-ui/List';
+import IconButton       from 'material-ui/IconButton';
+import Avatar           from 'material-ui/Avatar';
+import DeviceWallpaper  from 'material-ui/svg-icons/device/wallpaper';
+import ActionExit       from 'material-ui/svg-icons/action/exit-to-app';
 
 class UserInfo extends Component {
   constructor(props) {
@@ -20,8 +20,12 @@ class UserInfo extends Component {
     .then(res => {
       this.props.history.push('/login');
       this.props.onLogout();
+      if(this.props.notifiers)
+        this.props.notifiers.success('Logged out');
     })
-    .catch(err => alert(err));
+    .catch(err => {
+      if(this.props.notifiers) this.props.notifiers.error(err);
+    });
   }
 
   render() {
