@@ -12,12 +12,11 @@ class TaskCreateField extends Component {
   }
 
   addTask(e) {
-    if(e.key === 'Enter') {
-      const task = {
-        id: `new-${this.tempID}`,
-        title: e.target.value,
-        list_id: this.props.listID
-      }
+    const title = e.target.value;
+    if(e.key === 'Enter' && title.trim()) {
+      const list_id = this.props.listID;
+      const task = { id: `new-${this.tempID}`, title, list_id }
+
       this.props.newItem(task, true, true);
       this.props.crud.create(task);
       e.target.value = '';

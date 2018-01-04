@@ -17,7 +17,6 @@ export default function withCrud(options) {
       }
 
       create(data) {
-        console.log(this.props.notifiers);
         axios.post(options.pathname, data)
         .then(res => {
           this.props.onCreate(res.data);
