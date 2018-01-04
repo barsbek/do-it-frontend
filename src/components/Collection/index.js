@@ -3,12 +3,14 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import update from 'immutability-helper';
 
+import CircularProgress from 'material-ui/CircularProgress';
+
 import './index.css';
 import NewListButton from '../List/AddButton';
-import withCrud from '../hocs/withCrud';
-import withItems from '../hocs/withItems';
-import List from '../List';
-import Storage from '../../modules/Storage';
+import withCrud      from '../hocs/withCrud';
+import withItems     from '../hocs/withItems';
+import List          from '../List';
+import Storage       from '../../modules/Storage';
 
 class Collection extends Component {
   handleNewList() {
@@ -31,7 +33,7 @@ class Collection extends Component {
     return (
       <div className="collection">
         <div className="collection-lists">
-          {this.renderLists()}
+          {this.props.loading ? <CircularProgress /> : this.renderLists()}
         </div>
         <NewListButton
           onClick={this.handleNewList.bind(this)}
