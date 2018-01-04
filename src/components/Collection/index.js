@@ -22,6 +22,7 @@ class Collection extends Component {
         withID={item.id}
         item={{...item, collection_id: this.props.withID}}
         {...this.props.handlers}
+        notifiers={this.props.notifiers}
       />
     ));
   }

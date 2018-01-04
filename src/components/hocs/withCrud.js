@@ -17,11 +17,14 @@ export default function withCrud(options) {
       }
 
       create(data) {
+        console.log(this.props.notifiers);
         axios.post(options.pathname, data)
         .then(res => {
           this.props.onCreate(res.data);
         })
-        .catch(err => alert(err));
+        .catch(err => {
+          if(this.props.notifiers) this.props.notifiers.error(err);
+        });
       }
 
       update(data) {
@@ -31,7 +34,9 @@ export default function withCrud(options) {
         .then(res => {
           this.props.onUpdate(res.data);
         })
-        .catch(err => alert(err));
+        .catch(err => {
+          if(this.props.notifiers) this.props.notifiers.error(err);
+        });
       }
 
       // read(id) {
@@ -54,7 +59,9 @@ export default function withCrud(options) {
           const { last_update }= res.data;
           this.props.onDelete({ item, last_update });
         })
-        .catch(err => alert(err));
+        .catch(err => {
+          if(this.props.notifiers) this.props.notifiers.error(err);
+        });
       }
 
       change(data) {

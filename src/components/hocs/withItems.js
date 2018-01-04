@@ -38,7 +38,7 @@ function withItems(options) {
           }
         })
         .catch(err => {
-          alert(err);
+          if(this.props.notifiers) this.props.notifiers.error(err);
           this.setState({ loading: false });
         });
       }

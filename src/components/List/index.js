@@ -64,6 +64,7 @@ class CollectionList extends Component {
         key={t.id}
         item={t}
         {...this.props.handlers}
+        notifiers={this.props.notifiers}
       />
     ))
   }
@@ -91,6 +92,7 @@ class CollectionList extends Component {
           listID={this.props.withID}
           disabled={this.props.withID === 'new'}
           { ...this.props.handlers }
+          notifiers={this.props.notifiers}
         />
         <AlertDialog
           open={this.state.dialogOpen}

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
-import AppBar from 'material-ui/AppBar';
-import Drawer from 'material-ui/Drawer';
+import AppBar   from 'material-ui/AppBar';
+import Drawer   from 'material-ui/Drawer';
 
-import UserInfo from './User/Info';
-import Collection from './Collection';
+import UserInfo           from './User/Info';
+import Collection         from './Collection';
 import CollectionPreviews from './Collection/Previews';
-
+import withNotifiers      from './hocs/withNotifiers';
 
 import './App.css';
 
@@ -20,29 +20,12 @@ class App extends Component {
       collections: []
     };
 
-    this.notifyAboutSuccess = this.notifyAboutSuccess.bind(this);
-    this.notifyAboutError = this.notifyAboutError.bind(this);
-
     this.openDrawer = this.openDrawer.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.location !== this.props.location) {
       this.openDrawer(false);
-    }
-  }
-
-  notifyAboutError(err) {
-    if(err.response && (typeof err.response.data === 'object')) {
-      if(err.response.data.message) 
-        return this.handleNoticeChange(err.response.data.message);
-    }
-    this.handleNoticeChange("Something went wrong");
-  }
-
-  notifyAboutSuccess(res) {
-    if(typeof res.data === 'object') {
-      this.handleNoticeChange(res.data.message);
     }
   }
 
@@ -62,12 +45,16 @@ class App extends Component {
           onRequestChange={d => this.openDrawer(d)}
         >
           <UserInfo user={this.props.user} onLogout={this.props.onLogout} />
-          <CollectionPreviews />
+          <CollectionPreviews notifiers={this.props.notifiers} />
         </Drawer>
 
         <div className="app-content">
           <Route path="/collections/:id" render={props => (
-            <Collection {...props} withID={props.match.params.id} />
+            <Collection
+              {...props}
+              withID={props.match.params.id}
+              notifiers={this.props.notifiers}
+            />
           )} />
         </div>
       </div>
@@ -75,4 +62,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withNotifiers(App);
