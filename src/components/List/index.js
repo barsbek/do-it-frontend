@@ -86,7 +86,10 @@ class CollectionList extends Component {
           </IconButton>
         </Subheader>
         <div className="list-tasks">
-          {this.props.loading ? <CircularProgress /> : this.renderTasks()}
+          {this.props.loading && id !== 'new' ? 
+            <CircularProgress /> :
+            this.renderTasks()
+          }
         </div>
         <TaskCreateField 
           listID={this.props.withID}
