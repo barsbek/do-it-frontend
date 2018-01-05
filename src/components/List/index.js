@@ -19,6 +19,7 @@ import withItems  from '../hocs/withItems';
 import TaskCreateField  from '../Task/CreateField';
 import Task             from '../Task';
 import Storage          from '../../modules/Storage';
+import { isNew }        from '../../modules/helpers';
 
 const STORAGE_NAME = 'list';
 
@@ -35,7 +36,7 @@ class CollectionList extends Component {
   }
 
   componentWillUnmount() {
-    if( this.props.item.id !== 'new' ) this.clearSubitems()
+    if(!isNew( this.props.item.id )) this.clearSubitems()
   }
 
   clearSubitems() {
@@ -49,8 +50,8 @@ class CollectionList extends Component {
   }
 
   handleDeleteButton() {
-    const { id } = this.props.item;
-    if(id !== 'new') this.setState({ dialogOpen: true });
+    if(this.props.crud.loading) return false;
+    if(!isNew( this.props.item )) this.setState({ dialogOpen: true });
     else             this.props.crud.delete(this.props.item);
   }
 
@@ -75,25 +76,28 @@ class CollectionList extends Component {
       <Paper zDepth={1} className="list">
         <Subheader style={{ paddingLeft: 0 }}>         
           <InputWithDelay
-            focus={this.props.item.id === 'new'}
+            focus={isNew(id)}
             value={title}
             name="title"
             onChangeStop={title => this.props.crud.change({ title })}
             fullWidth={true}
           />
           <IconButton onClick={this.handleDeleteButton}>
-            <ContentClear />
+            { this.props.crud.loading ? 
+              <CircularProgress size={20} thickness={2} /> :
+              <ContentClear />
+            }
           </IconButton>
         </Subheader>
         <div className="list-tasks">
-          {this.props.loading && id !== 'new' ? 
+          {this.props.loading && !isNew(id) ? 
             <CircularProgress /> :
             this.renderTasks()
           }
         </div>
         <TaskCreateField 
           listID={this.props.withID}
-          disabled={this.props.withID === 'new'}
+          disabled={isNew(this.props.withID)}
           { ...this.props.handlers }
           notifiers={this.props.notifiers}
         />

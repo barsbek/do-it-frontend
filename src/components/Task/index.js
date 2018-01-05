@@ -43,7 +43,7 @@ class Task extends Component {
           className="task-delete-button"
           onClick={this.handleDelete.bind(this)}
         >
-        {this.props.crud.loading || isNew(id) ?
+        { this.props.crud.loading || isNew(id) ?
           <CircularProgress size={20} thickness={2} /> :
           <NavigationCancel />
         }
