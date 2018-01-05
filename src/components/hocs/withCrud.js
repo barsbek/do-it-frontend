@@ -8,6 +8,9 @@ export default function withCrud(options) {
     return class extends Component {
       constructor(props) {
         super(props);
+        this.state = {
+          loading: false
+        }
 
         this.create = this.create.bind(this);
         this.update = this.update.bind(this);
@@ -17,24 +20,30 @@ export default function withCrud(options) {
       }
 
       create(data) {
+        this.setState({ loading: true });
         axios.post(options.pathname, data)
         .then(res => {
           this.props.onCreate(res.data);
+          this.setState({ loading: false });
         })
         .catch(err => {
           if(this.props.notifiers) this.props.notifiers.error(err);
+          this.setState({ loading: false });
         });
       }
 
       update(data) {
         const { id }= this.props.item;
-    
+
+        this.setState({ loading: true });
         axios.put(`${options.pathname}/${id}`, data)
         .then(res => {
           this.props.onUpdate(res.data);
+          this.setState({ loading: false });
         })
         .catch(err => {
           if(this.props.notifiers) this.props.notifiers.error(err);
+          this.setState({ loading: false });
         });
       }
 
@@ -51,15 +60,18 @@ export default function withCrud(options) {
       delete(item) {
         if(item.id === "new")
           return this.props.onDelete({ item });
-        
+
+        this.setState({ loading: true });
         axios.delete(`${options.pathname}/${item.id}`)
         .then(res => {
           const item = res.data[options.name];
           const { last_update }= res.data;
           this.props.onDelete({ item, last_update });
+          this.setState({ loading: false });
         })
         .catch(err => {
           if(this.props.notifiers) this.props.notifiers.error(err);
+          this.setState({ loading: false });
         });
       }
 
@@ -70,17 +82,18 @@ export default function withCrud(options) {
       }
     
       render() {
-        const actions = {
+        const crud = {
           create: this.create,
           update: this.update,
           delete: this.delete,
           change: this.change,
+          loading: this.state.loading,
         }
 
         return (
           <WrappedComponent
             {...this.props}
-            crud={actions}
+            crud={crud}
           />
         )
       }
