@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
-import List from 'material-ui/List/List';
 import CircularProgress from 'material-ui/CircularProgress';
 import IconButton from 'material-ui/IconButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -82,7 +81,7 @@ class CollectionPreviews extends Component {
             <ContentRemove />
           </IconButton>
         </div>
-        <List>{this.renderCollections()}</List>
+        <div>{this.renderCollections()}</div>
       </div>
     )
   }

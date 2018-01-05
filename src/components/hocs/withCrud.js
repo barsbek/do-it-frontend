@@ -24,7 +24,6 @@ export default function withCrud(options) {
         axios.post(options.pathname, data)
         .then(res => {
           this.props.onCreate(res.data);
-          this.setState({ loading: false });
         })
         .catch(err => {
           if(this.props.notifiers) this.props.notifiers.error(err);
@@ -67,11 +66,9 @@ export default function withCrud(options) {
           const item = res.data[options.name];
           const { last_update }= res.data;
           this.props.onDelete({ item, last_update });
-          this.setState({ loading: false });
         })
         .catch(err => {
           if(this.props.notifiers) this.props.notifiers.error(err);
-          this.setState({ loading: false });
         });
       }
 
@@ -89,7 +86,7 @@ export default function withCrud(options) {
           change: this.change,
           loading: this.state.loading,
         }
-
+        
         return (
           <WrappedComponent
             {...this.props}
