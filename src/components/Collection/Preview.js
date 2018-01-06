@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import { withRouter } from 'react-router-dom';
 
 import InputWithDelay from '../common/InputWithDelay';
 import DateTimePicker from '../common/DateTimePicker';
@@ -56,7 +57,9 @@ class CollectionPreview extends Component {
   }
 }
 
-export default withCrud({
+const PreviewWithCrud = withCrud({
   name: "collection",
   pathname: "/api/collections",
 })(CollectionPreview);
+
+export default withRouter(PreviewWithCrud);

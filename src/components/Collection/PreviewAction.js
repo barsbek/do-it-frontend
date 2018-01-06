@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 
 import IconButton       from 'material-ui/IconButton';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -32,4 +31,4 @@ const PreviewAction = (props) => {
   )
 }
 
-export default withRouter(PreviewAction);
+export default PreviewAction;
