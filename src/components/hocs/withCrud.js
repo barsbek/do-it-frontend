@@ -14,7 +14,6 @@ export default function withCrud(options) {
 
         this.create = this.create.bind(this);
         this.update = this.update.bind(this);
-        // this.read = this.read.bind(this);
         this.delete = this.delete.bind(this);
         this.change = this.change.bind(this);
       }
@@ -45,16 +44,6 @@ export default function withCrud(options) {
           this.setState({ loading: false });
         });
       }
-
-      // read(id) {
-      //   const { pathname } = this.props;
-
-      //   axios.get(`${pathname}/${id}`, data)
-      //   .then(res => {
-      //     this.props.onRead(res.data);
-      //   })
-      //   .catch(err => alert(err));
-      // }
 
       delete(item) {
         if(item.id === "new")
