@@ -9,31 +9,24 @@ import './index.css';
 import NewListButton from '../List/AddButton';
 import withCrud      from '../hocs/withCrud';
 import withItems     from '../hocs/withItems';
-import List          from '../List';
 import Storage       from '../../modules/Storage';
+import SortableLists from './SortableLists';
 
 class Collection extends Component {
   handleNewList() {
     this.props.handlers.newItem({ title: '' });
   }
 
-  renderLists() {
-    return this.props.items.map(item => (
-      <List
-        key={item.id}
-        withID={item.id}
-        item={{...item, collection_id: this.props.withID}}
-        handlers={this.props.handlers}
-        notifiers={this.props.notifiers}
-      />
-    ));
-  }
-
   render() {
     return (
       <div className="collection">
         <div className="collection-lists">
-          {this.props.loading ? <CircularProgress /> : this.renderLists()}
+          { this.props.loading ?
+            <CircularProgress /> :
+            <SortableLists
+              {...this.props}
+              onSortEnd={this.props.handlers.onSortEnd} />
+          }
         </div>
         <NewListButton
           onClick={this.handleNewList.bind(this)}

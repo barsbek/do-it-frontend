@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { arrayMove } from 'react-sortable-hoc';
 
-import Storage from '../../modules/Storage';
+import Storage    from '../../modules/Storage';
+import { isNew }  from '../../modules/helpers';
 
 function withItems(options) {
   return function Wrapper(WrappedComponent) {
@@ -24,7 +25,7 @@ function withItems(options) {
 
       componentWillMount() {
         const id = this.props.withID;
-        if( this.isTempItem(id) ) return false;        
+        if( isNew(id) ) return false;        
 
         const pathname = id ? `${options.pathname}/${id}` : options.pathname;
         axios.get(pathname)
@@ -52,14 +53,10 @@ function withItems(options) {
         }
       }
 
-      isTempItem(id) {
-        return `${id}`.includes('new');
-      }
-
       onCreate(item) {
         let items = this.state.items.slice();
         for(let i = 0; i<items.length; i++) {
-          if( this.isTempItem(items[i].id) ) {
+          if( isNew(items[i].id) ) {
             this.setState({ creatable: true });
             items[i] = item;
             break;
@@ -102,7 +99,7 @@ function withItems(options) {
         });
 
         last_update = last_update ? last_update : this.lastUpdateFrom(items);
-        const creatable = this.isTempItem(item.id) ? true : this.state.creatable;
+        const creatable = isNew(item.id) ? true : this.state.creatable;
         this.storage.set(items, last_update);
         this.setState({ items, creatable });
       }

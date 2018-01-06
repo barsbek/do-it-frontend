@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import update from 'immutability-helper';
 import axios from 'axios';
-import { arrayMove } from 'react-sortable-hoc';
+import { SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
 
 import Paper            from 'material-ui/Paper';
 import Subheader        from 'material-ui/Subheader';
@@ -23,6 +23,7 @@ import Storage          from '../../modules/Storage';
 import { isNew }        from '../../modules/helpers';
 
 const STORAGE_NAME = 'list';
+const DragHandle = SortableHandle(() => <span>:::</span>);
 
 class CollectionList extends Component {
   constructor(props) {
@@ -39,6 +40,12 @@ class CollectionList extends Component {
 
   componentWillUnmount() {
     if(!isNew( this.props.item.id )) this.clearSubitems()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.moved && this.props.moved !== nextProps.moved) {
+      this.props.crud.update({ position: nextProps.moved });
+    }
   }
 
   clearSubitems() {
@@ -89,6 +96,7 @@ class CollectionList extends Component {
             onChangeStop={title => this.props.crud.change({ title })}
             fullWidth={true}
           />
+          <DragHandle />
           <IconButton onClick={this.handleDeleteButton}>
             { this.props.crud.loading ? 
               <CircularProgress size={20} thickness={2} /> :
@@ -117,13 +125,20 @@ class CollectionList extends Component {
   }
 }
 
-const ListWithCrud = withCrud({
-  name: "list",
-  pathname: "/api/lists"
-})(CollectionList);
+// move into separate components
+const SortableList = SortableElement(props => (
+  <CollectionList {...props} />
+));
 
-export default withItems({
+const ListWithItems = withItems({
   pathname: "/api/lists",
   storageName: STORAGE_NAME,
   itemsName: "tasks"
-})(ListWithCrud);
+})(SortableList);
+
+const ListWithCrud = withCrud({
+  name: "list",
+  pathname: "/api/lists"
+})(ListWithItems);
+
+export default ListWithCrud;
