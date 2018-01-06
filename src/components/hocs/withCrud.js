@@ -23,7 +23,7 @@ export default function withCrud(options) {
         this.setState({ loading: true });
         axios.post(options.pathname, data)
         .then(res => {
-          this.props.onCreate(res.data);
+          this.props.handlers.onCreate(res.data);
         })
         .catch(err => {
           if(this.props.notifiers) this.props.notifiers.error(err);
@@ -37,7 +37,7 @@ export default function withCrud(options) {
         this.setState({ loading: true });
         axios.put(`${options.pathname}/${id}`, data)
         .then(res => {
-          this.props.onUpdate(res.data);
+          this.props.handlers.onUpdate(res.data);
           this.setState({ loading: false });
         })
         .catch(err => {
@@ -65,7 +65,7 @@ export default function withCrud(options) {
         .then(res => {
           const item = res.data[options.name];
           const { last_update }= res.data;
-          this.props.onDelete({ item, last_update });
+          this.props.handlers.onDelete({ item, last_update });
         })
         .catch(err => {
           if(this.props.notifiers) this.props.notifiers.error(err);

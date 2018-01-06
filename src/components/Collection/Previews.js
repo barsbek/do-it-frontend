@@ -63,7 +63,7 @@ class CollectionPreviews extends Component {
         key={c.id}
         item={c}
         removable={this.state.removable}
-        {...this.props.handlers}
+        handlers={this.props.handlers}
         notifiers={this.props.notifiers}
       />
     ));

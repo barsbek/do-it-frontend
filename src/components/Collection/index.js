@@ -23,7 +23,7 @@ class Collection extends Component {
         key={item.id}
         withID={item.id}
         item={{...item, collection_id: this.props.withID}}
-        {...this.props.handlers}
+        handlers={this.props.handlers}
         notifiers={this.props.notifiers}
       />
     ));
