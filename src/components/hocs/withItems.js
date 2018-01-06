@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { arrayMove } from 'react-sortable-hoc';
 
 import Storage from '../../modules/Storage';
 
@@ -13,7 +14,7 @@ function withItems(options) {
         this.state = {
           creatable: true,
           loading: !this.storage.data,
-          items: this.storage.data || []
+          items: this.storage.data || [],
         }
       }
 
@@ -73,6 +74,18 @@ function withItems(options) {
         this.setState({ items });
       }
 
+      onSortEnd({ oldIndex, newIndex }) {
+        if(oldIndex !== newIndex) {
+          const movedItems = this.state.items.map((x, index) => {
+            if(index === oldIndex) x.moved = newIndex + 1;
+            else x.moved = false;
+            return x;
+          });
+          const items = arrayMove(movedItems, oldIndex, newIndex);
+          this.setState({ items });
+        }
+      }
+
       onUpdate(item) {
         const items = this.state.items.map(c => {
           if(c.id === item.id) return item;
@@ -122,6 +135,7 @@ function withItems(options) {
           onUpdate: this.onUpdate.bind(this),
           onDelete: this.onDelete.bind(this),
           newItem:  this.onNewItem.bind(this),
+          onSortEnd: this.onSortEnd.bind(this),
         }
       }
 

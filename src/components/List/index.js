@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import update from 'immutability-helper';
 import axios from 'axios';
+import { arrayMove } from 'react-sortable-hoc';
 
 import Paper            from 'material-ui/Paper';
 import Subheader        from 'material-ui/Subheader';
@@ -17,7 +18,7 @@ import withCrud   from '../hocs/withCrud';
 import withItems  from '../hocs/withItems';
 
 import TaskCreateField  from '../Task/CreateField';
-import Task             from '../Task';
+import SortableTasks    from './SortableTasks';
 import Storage          from '../../modules/Storage';
 import { isNew }        from '../../modules/helpers';
 
@@ -33,6 +34,7 @@ class CollectionList extends Component {
     this.handleDialogDelete = this.handleDialogDelete.bind(this);
     this.handleDeleteButton = this.handleDeleteButton.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
+    this.handleSort = this.handleSort.bind(this);
   }
 
   componentWillUnmount() {
@@ -59,15 +61,20 @@ class CollectionList extends Component {
     this.setState({ dialogOpen: false });
   }
 
+  handleSort(data) {
+    this.props.handlers.onSortEnd(data);
+  }
+
   renderTasks() {
-    return this.props.items.map((t, index) => (
-      <Task
-        key={t.id}
-        item={t}
-        {...this.props.handlers}
+    return (
+      <SortableTasks
+        moved={this.props.moved}
+        items={this.props.items}
+        handlers={this.props.handlers}
         notifiers={this.props.notifiers}
+        onSortEnd={this.handleSort}
       />
-    ))
+    );
   }
 
   render() {
@@ -89,16 +96,14 @@ class CollectionList extends Component {
             }
           </IconButton>
         </Subheader>
-        <div className="list-tasks">
           {this.props.loading && !isNew(id) ? 
             <CircularProgress /> :
             this.renderTasks()
           }
-        </div>
         <TaskCreateField 
           listID={this.props.withID}
           disabled={isNew(this.props.withID)}
-          { ...this.props.handlers }
+          handlers={this.props.handlers}
           notifiers={this.props.notifiers}
         />
         <AlertDialog
