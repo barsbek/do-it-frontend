@@ -10,7 +10,7 @@ import ContentRemove from 'material-ui/svg-icons/content/remove';
 import Storage from '../../modules/Storage';
 import withCrud from '../hocs/withCrud';
 import withItems from '../hocs/withItems';
-import CollectionPreview from './Preview';
+import SortablePreviews from './SortablePreviews';
 
 class CollectionPreviews extends Component {
   constructor(props) {
@@ -57,18 +57,6 @@ class CollectionPreviews extends Component {
     this.setState({ removable });
   }
 
-  renderCollections() {
-    return this.props.items.map((c, index) => (
-      <CollectionPreview
-        key={c.id}
-        item={c}
-        removable={this.state.removable}
-        handlers={this.props.handlers}
-        notifiers={this.props.notifiers}
-      />
-    ));
-  }
-
   render() {
     if(this.props.loading) return <CircularProgress />
     return (
@@ -81,7 +69,11 @@ class CollectionPreviews extends Component {
             <ContentRemove />
           </IconButton>
         </div>
-        <div>{this.renderCollections()}</div>
+        <SortablePreviews
+          {...this.props}
+          removable={this.state.removable}
+          onSortEnd={this.props.handlers.onSortEnd}
+        />
       </div>
     )
   }
