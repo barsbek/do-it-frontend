@@ -11,6 +11,8 @@ import UserRegister from './components/User/Register';
 
 import registerServiceWorker from './registerServiceWorker';
 
+import './index.css';
+
 const Main = () => (
   <MuiThemeProvider>
     <Router>

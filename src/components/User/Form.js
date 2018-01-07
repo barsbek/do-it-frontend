@@ -7,7 +7,7 @@ import url from 'url';
 import TextField from 'material-ui/TextField'; 
 import RaisedButton from 'material-ui/RaisedButton';
 
-import './Form.css';
+import styles from './Form.css.js';
 
 class UserForm extends Component {
   constructor(props) {
@@ -75,19 +75,21 @@ class UserForm extends Component {
 
   render() {
     return (
-      <form className="user-form"
-          url={this.props.url}
-          method={this.props.method || 'POST'}
-          onSubmit={this.handleSubmit} >
-        <div className="user-form-fields">
-          {this.formFields()}
-        </div>
-        <div className="user-form-actions">
-          <RaisedButton
-            label={this.props.button}
-            type="submit" />
-        </div>
-      </form>
+      <div style={styles.UserForm}>
+        <form style={styles.Form}
+            url={this.props.url}
+            method={this.props.method || 'POST'}
+            onSubmit={this.handleSubmit} >
+          <div style={styles.Fields}>
+            {this.formFields()}
+          </div>
+          <div style={styles.Actions}>
+            <RaisedButton
+              label={this.props.button}
+              type="submit" />
+          </div>
+        </form>
+      </div>
     )
   }
 }
