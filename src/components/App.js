@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 
 import AppBar   from 'material-ui/AppBar';
 import Drawer   from 'material-ui/Drawer';
+import IconButton   from 'material-ui/IconButton';
+import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 
 import UserInfo           from './User/Info';
 import Collection         from './Collection';
@@ -36,20 +39,24 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <AppBar
-          title="title"
-          onLeftIconButtonClick={() => this.openDrawer(true)}
-        />
-        <Drawer
-          open={this.state.drawer} docked={false}
-          onRequestChange={d => this.openDrawer(d)}
-        >
-          <UserInfo user={this.props.user}
-            onLogout={this.props.onLogout}
-            onUpdate={this.props.onUserUpdate}
-          />
-          <CollectionPreviews notifiers={this.props.notifiers} />
-        </Drawer>
+        <MediaQuery maxDeviceWidth={800}>
+          <IconButton onClick={() => this.openDrawer(true)}>
+            <NavigationMenu />
+          </IconButton>
+        </MediaQuery>
+        <MediaQuery maxDeviceWidth={800}>
+          { matches => <Drawer 
+            docked={!matches}
+            disableSwipeToOpen={true}
+            open={!matches || this.state.drawer}
+            onRequestChange={this.openDrawer}>
+            <UserInfo user={this.props.user}
+              onLogout={this.props.onLogout}
+              onUpdate={this.props.onUserUpdate}
+            />
+            <CollectionPreviews notifiers={this.props.notifiers} />
+          </Drawer> }
+        </MediaQuery>
 
         <div className="app-content">
           <Route path="/collections/:id" render={props => (
