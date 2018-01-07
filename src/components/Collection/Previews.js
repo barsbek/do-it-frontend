@@ -12,6 +12,8 @@ import withCrud from '../hocs/withCrud';
 import withItems from '../hocs/withItems';
 import SortablePreviews from './SortablePreviews';
 
+import styles from './Previews.css.js';
+
 class CollectionPreviews extends Component {
   constructor(props) {
     super(props);
@@ -60,12 +62,16 @@ class CollectionPreviews extends Component {
   render() {
     if(this.props.loading) return <CircularProgress />
     return (
-      <div className="collection-previews">
-        <div className="collection-previews-actions">
-          <IconButton onClick={this.handleNewCollection.bind(this)}>
+      <div>
+        <div style={styles.Actions}>
+          <IconButton
+            style={styles.ActionButton}
+            onClick={this.handleNewCollection.bind(this)}>
             <ContentAdd />
           </IconButton>
-          <IconButton onClick={this.toggleRemovable.bind(this)}>
+          <IconButton
+            style={styles.ActionButton}
+            onClick={this.toggleRemovable.bind(this)}>
             <ContentRemove />
           </IconButton>
         </div>

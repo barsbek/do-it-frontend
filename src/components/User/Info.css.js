@@ -1,6 +1,7 @@
 export default {
   Container: {
     paddingLeft: 60,
+    paddingBottom: 0,
   },
   Title: {
     width: 160,
