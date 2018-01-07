@@ -15,10 +15,15 @@ class UserInfo extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: false }
+    this.state = {
+      loading: false,
+      avatar: this.props.user.avatar_thumb,
+    }
 
     this.handleLogout = this.handleLogout.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleAvatarClick = this.handleAvatarClick.bind(this);
+    this.changeAvatar = this.changeAvatar.bind(this);
   }
 
   handleLogout() {
@@ -49,12 +54,36 @@ class UserInfo extends Component {
     })
   }
 
+  changeAvatar(e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      this.setState({ avatar: reader.result });
+    });
+    if(file) {
+      reader.readAsDataURL(file);
+      let data = new FormData();
+      data.append('user[avatar]', file);
+      this.handleUpdate(data);
+    }
+  }
+
+  handleAvatarClick(e) {
+    this.refs.avatar.click();
+  }
+
   render() {
     const { name, email } = this.props.user;
     return (
       <ListItem
         disabled={true}
-        leftAvatar={<Avatar icon={<DeviceWallpaper />} />}
+        leftAvatar={
+          <Avatar
+            icon={<DeviceWallpaper />}
+            src={this.state.avatar}
+            onClick={this.handleAvatarClick}
+          />
+        }
         rightIcon={
           <IconButton
             onClick={this.handleLogout}
@@ -67,11 +96,20 @@ class UserInfo extends Component {
         }
         primaryText={
           <InputWithDelay
+            name='name'
             value={name}
             onChangeStop={name => this.handleUpdate({ name })}
           />
         }
-        secondaryText={email}>
+        secondaryText={email}
+      >
+        <input
+          hidden={true}
+          ref='avatar'
+          type='file'
+          accept='image/*'
+          onChange={this.changeAvatar}
+        />
       </ListItem>
     )
   }
