@@ -11,6 +11,8 @@ import CircularProgress from 'material-ui/CircularProgress';
 
 import InputWithDelay   from '../common/InputWithDelay';
 
+import styles from './Info.css.js';
+
 class UserInfo extends Component {
   constructor(props) {
     super(props);
@@ -77,6 +79,7 @@ class UserInfo extends Component {
     return (
       <ListItem
         disabled={true}
+        style={styles.Container}
         leftAvatar={
           <Avatar
             icon={<DeviceWallpaper />}
@@ -87,7 +90,7 @@ class UserInfo extends Component {
         rightIcon={
           <IconButton
             onClick={this.handleLogout}
-            style={{padding: 0 }}>
+            style={styles.Logout}>
             { this.state.loading ?
               <CircularProgress size={20} thickness={2} /> :
               <ActionExit />
@@ -98,6 +101,7 @@ class UserInfo extends Component {
           <InputWithDelay
             name='name'
             value={name}
+            style={styles.Title}
             onChangeStop={name => this.handleUpdate({ name })}
           />
         }

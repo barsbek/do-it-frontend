@@ -49,7 +49,8 @@ class App extends Component {
             docked={!matches}
             disableSwipeToOpen={true}
             open={!matches || this.state.drawer}
-            onRequestChange={this.openDrawer}>
+            onRequestChange={this.openDrawer}
+            width={280} >
             <UserInfo user={this.props.user}
               onLogout={this.props.onLogout}
               onUpdate={this.props.onUserUpdate}
