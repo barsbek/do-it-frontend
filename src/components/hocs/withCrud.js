@@ -47,7 +47,7 @@ export default function withCrud(options) {
 
       delete(item) {
         if(item.id === "new")
-          return this.props.onDelete({ item });
+          return this.props.handlers.onDelete({ item });
 
         this.setState({ loading: true });
         axios.delete(`${options.pathname}/${item.id}`)
