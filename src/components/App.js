@@ -44,7 +44,10 @@ class App extends Component {
           open={this.state.drawer} docked={false}
           onRequestChange={d => this.openDrawer(d)}
         >
-          <UserInfo user={this.props.user} onLogout={this.props.onLogout} />
+          <UserInfo user={this.props.user}
+            onLogout={this.props.onLogout}
+            onUpdate={this.props.onUserUpdate}
+          />
           <CollectionPreviews notifiers={this.props.notifiers} />
         </Drawer>
 

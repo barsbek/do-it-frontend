@@ -12,6 +12,7 @@ class PrivateRoute extends Component {
     this.state = { user: null, loading: true }
 
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentWillMount() {
@@ -29,6 +30,10 @@ class PrivateRoute extends Component {
     this.setState({ user: null });
   }
 
+  handleUpdate(user) {
+    this.setState({ user });
+  }
+
   render() {
     const { component: Component, ...rest } = this.props;
     const { user, loading } = this.state;
@@ -36,11 +41,16 @@ class PrivateRoute extends Component {
     return (
       <Route {...rest} render={props => {
         if(loading) return <CircularProgress />;
-        if(user)    return <Component {...props} user={user} onLogout={this.handleLogout} />
-                    return <Redirect to={{
-                      pathname: '/login',
-                      state: { from: this.props.location }
-                    }} />
+        if(user) return <Component {...props}
+          user={user}
+          onLogout={this.handleLogout}
+          onUserUpdate={this.handleUpdate}
+        />
+
+        return <Redirect to={{
+          pathname: '/login',
+          state: { from: this.props.location }
+        }} />
       }}/>
     )
   }
