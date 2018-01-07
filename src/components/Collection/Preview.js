@@ -11,7 +11,10 @@ import withCrud       from '../hocs/withCrud';
 import Storage        from '../../modules/Storage';
 import { isNew }      from '../../modules/helpers';
 
-const DragHandle = SortableHandle(() => <span>::</span>);
+import styles from './Preview.css.js';
+
+const DragHandle = SortableHandle(() => <span style={styles.Sorter}>::</span>);
+
 
 class CollectionPreview extends Component {
   componentWillUnmount() {
@@ -38,30 +41,32 @@ class CollectionPreview extends Component {
   render() {
     const { id, title, finish_at } = this.props.item;
     return (
-      <div style={{display: 'flex', marginBottom: 18}}>
+      <div style={styles.Preview}>
         <div>
-        <DragHandle />
         <InputWithDelay
           name="title"
           value={title}
           focus={isNew( id )}
           onChangeStop={title => this.props.crud.change({ title })}
-          style={{ width: 180 }}
+          style={styles.Title}
         />
         <DateTimePicker
           value={finish_at}
           onChange={finish_at => this.props.crud.change({ finish_at })}
           buttonLabel={moment(finish_at).format('llll')}
-          buttonStyle={{ }}
+          buttonStyle={styles.FinishAt}
         />
       </div>
-      <PreviewAction
-        id={id}
-        loading={this.props.crud.loading}
-        removable={this.props.removable}
-        onDelete={() => this.props.crud.delete(this.props.item)}
-        onFollow={() => this.props.history.push(`/collections/${id}`)}
-      />
+      <div style={styles.Actions} >
+        <PreviewAction
+          id={id}
+          loading={this.props.crud.loading}
+          removable={this.props.removable}
+          onDelete={() => this.props.crud.delete(this.props.item)}
+          onFollow={() => this.props.history.push(`/collections/${id}`)}
+        />
+        <DragHandle />
+      </div>
     </div>
     )
   }

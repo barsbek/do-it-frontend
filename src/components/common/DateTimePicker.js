@@ -5,6 +5,18 @@ import DatePicker   from 'material-ui/DatePicker'
 import TimePicker   from 'material-ui/TimePicker';
 import RaisedButton from 'material-ui/RaisedButton';
 
+const styles = {
+  Button: {
+    border: 'none',
+    background: 'transparent',
+    outline: 'none',
+    fontSize: 12,
+    color: '#444',
+    width: '100%',
+    textAlign: 'left'
+  }
+}
+
 class DateTimePicker extends Component {
   constructor(props) {
     super(props);
@@ -35,12 +47,11 @@ class DateTimePicker extends Component {
 
   render() {
     return [
-      <RaisedButton
+      <button
         key="date-time-button"
-        label={this.props.buttonLabel}
-        style={this.props.buttonStyle}
+        style={styles.Button}
         onClick={() => this.refs.datepicker.openDialog()}
-      />,
+      >{this.props.buttonLabel}</button>,
       <DatePicker
         key="datepicker"
         ref="datepicker"
