@@ -1,0 +1,28 @@
+.Container {
+  padding-left: 12px;
+  display: flex;
+  margin-top: 14px;
+}
+
+.Avatar {
+  flex-shrink: 0;
+}
+
+.Idents {
+  padding-left: 8px;
+}
+
+.Email {
+  font-size: 12px;
+  color: #444;
+}
+
+.Title {
+  width: 100% !important;
+  height: 34px !important;
+}
+
+.Logout {
+  width: auto !important;
+  padding-left: 6px !important;
+}

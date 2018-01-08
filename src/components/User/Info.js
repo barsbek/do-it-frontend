@@ -11,7 +11,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 
 import InputWithDelay   from '../common/InputWithDelay';
 
-import styles from './Info.css.js';
+import styles from './Info.css';
 
 class UserInfo extends Component {
   constructor(props) {
@@ -77,44 +77,37 @@ class UserInfo extends Component {
   render() {
     const { name, email } = this.props.user;
     return (
-      <ListItem
-        disabled={true}
-        style={styles.Container}
-        leftAvatar={
-          <Avatar
-            icon={<DeviceWallpaper />}
-            src={this.state.avatar}
-            onClick={this.handleAvatarClick}
-          />
-        }
-        rightIcon={
-          <IconButton
-            onClick={this.handleLogout}
-            style={styles.Logout}>
-            { this.state.loading ?
-              <CircularProgress size={20} thickness={2} /> :
-              <ActionExit />
-            }
-          </IconButton>
-        }
-        primaryText={
+      <div className={styles.Container}>
+        <Avatar
+          className={styles.Avatar}
+          icon={<DeviceWallpaper />}
+          src={this.state.avatar}
+          onClick={this.handleAvatarClick}
+        />
+        <input hidden={true} ref='avatar' type='file' accept='image/*'
+          onChange={this.changeAvatar}
+        />
+        <div className={styles.Idents}>
           <InputWithDelay
             name='name'
             value={name}
-            style={styles.Title}
+            className={styles.Title}
             onChangeStop={name => this.handleUpdate({ name })}
           />
-        }
-        secondaryText={email}
-      >
-        <input
-          hidden={true}
-          ref='avatar'
-          type='file'
-          accept='image/*'
-          onChange={this.changeAvatar}
-        />
-      </ListItem>
+          <div className={styles.Email}>
+            {email}
+          </div>
+        </div>
+        <IconButton
+          onClick={this.handleLogout}
+          className={styles.Logout}>
+          { this.state.loading ?
+            <CircularProgress size={20} thickness={2} /> :
+            <ActionExit />
+          }
+        </IconButton>
+
+      </div>
     )
   }
 }
