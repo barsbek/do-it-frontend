@@ -7,25 +7,31 @@ import ContentClear     from 'material-ui/svg-icons/content/clear';
 
 import { isNew } from '../../modules/helpers';
 
+const styles = {
+  Button: {
+    width: 40,
+    padding: 6,
+    paddingLeft: 0,
+    zIndex: 2,
+  }
+}
+
 const PreviewAction = (props) => {
-  const style = { zIndex: 2 };
   if(props.loading) return (
-    <IconButton>
+    <IconButton style={styles.Button}>
       <CircularProgress size={20} thickness={2} />
     </IconButton>
   )
   else if(props.removable) return (
-    <IconButton
-      onClick={props.onDelete}
-      style={style}>
+    <IconButton style={styles.Button}
+      onClick={props.onDelete}>
       <ContentClear />
     </IconButton>
   )
   else return (
-    <IconButton
+    <IconButton style={styles.Button}
       disabled={isNew( props.id )}
-      onClick={props.onFollow}
-      style={style}>
+      onClick={props.onFollow}>
       <ArrowForward />
     </IconButton>
   )
