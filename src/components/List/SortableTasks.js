@@ -5,7 +5,7 @@ import Task from '../Task';
 
 const SortableTasks = SortableContainer((props) => {
   const lastItemIndex = props.items.length;
-  return <div className="list-tasks">
+  return <div style={{ overflowY: 'auto', overflowX: 'hidden' }}>
     {props.items.map((item, index) => (
       <Task
         key={item.id}

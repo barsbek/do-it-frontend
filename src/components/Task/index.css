@@ -1,0 +1,9 @@
+.Task {
+  display: flex;
+  align-items: center;
+}
+
+.Sorter {
+  padding-left: 6px;
+  padding-right: 4px;
+}

@@ -30,6 +30,7 @@ class TaskCreateField extends Component {
         hintText="+"
         onKeyPress={this.addTask}
         disabled={this.props.disabled}
+        className={this.props.className}
         // move styles into separate file
         fullWidth={true}
         inputStyle={{ paddingLeft: 10 }}

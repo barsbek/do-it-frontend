@@ -11,7 +11,11 @@ import InputWithDelay from '../common/InputWithDelay';
 import withCrud from '../hocs/withCrud';
 import { isNew } from '../../modules/helpers';
 
-const DragHandle = SortableHandle(() => <span>::</span>); 
+import styles from './index.css';
+
+const DragHandle = SortableHandle(
+  () => <span className={styles.Sorter}>::</span>
+); 
 
 class Task extends Component {
   componentWillReceiveProps(nextProps) {
@@ -36,23 +40,23 @@ class Task extends Component {
   render() {
     const { id, completed, title } = this.props.item;
     return (
-      <div>
+      <div className={styles.Task}>
         <DragHandle />
         <Checkbox
+          style={{ width: 'auto' }}
+          iconStyle={{ marginRight: 4 }}
           checked={completed}
           onCheck={() => this.handleUpdate({ completed: !completed })}
-          label={
-            <InputWithDelay
-              hintText={"Change task"}
-              value={title}
-              onChangeStop={title => this.handleUpdate({ title })}
-              underlineShow={false}
-              style={{ zIndex: 2 }}
-            />
-          }
+        />
+        <InputWithDelay
+          hintText={"Change task"}
+          value={title}
+          onChangeStop={title => this.handleUpdate({ title })}
+          underlineShow={false}
+          style={{ zIndex: 2, height: 34, paddingTop: 6 }}
         />
         <IconButton
-          className="task-delete-button"
+          style={{ height: 40, padding: 6, width: 40 }}
           onClick={this.handleDelete.bind(this)}
         >
         { this.props.crud.loading || isNew(id) ?
