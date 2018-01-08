@@ -1,0 +1,27 @@
+.Preview {
+  display: flex;
+  padding-left: 10px;
+}
+
+.Title {
+  width: 212;
+  height: 40;
+}
+
+.FinishAt {
+  height: 20;
+  line-height: 20;
+}
+
+.Actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.Follow {
+  padding-left: 6;
+}
+
+.Sorter {
+  text-align: center;
+}
