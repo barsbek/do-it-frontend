@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 
-import AppBar   from 'material-ui/AppBar';
 import Drawer   from 'material-ui/Drawer';
 import IconButton   from 'material-ui/IconButton';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
@@ -38,7 +37,7 @@ class App extends Component {
 
   render() {
     return (
-      <div class={styles.App}>
+      <div className={styles.App}>
         <IconButton
           className={styles.MenuIcon}
           onClick={() => this.openDrawer(true)}>
