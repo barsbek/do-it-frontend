@@ -38,7 +38,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div class={styles.App}>
         <IconButton
           className={styles.MenuIcon}
           onClick={() => this.openDrawer(true)}>
