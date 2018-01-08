@@ -1,6 +1,7 @@
 .Container {
   padding-left: 12px;
   display: flex;
+  align-items: center;
   margin-top: 14px;
 }
 
@@ -18,7 +19,6 @@
 }
 
 .Title {
-  width: 100% !important;
   height: 34px !important;
 }
 
