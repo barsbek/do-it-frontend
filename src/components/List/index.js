@@ -111,12 +111,12 @@ class CollectionList extends Component {
             }
           </IconButton>
         </Subheader>
-        <DragHandle />
-          {this.props.loading && !isNew(id) ? 
-            <CircularProgress /> :
-            this.renderTasks()
-          }
+        {this.props.loading && !isNew(id) ? 
+          <CircularProgress className={styles.LoadingAnimation}/> :
+          this.renderTasks()
+        }
         <TaskCreateField 
+          className={styles.TaskCreate}
           listID={this.props.withID}
           disabled={isNew(this.props.withID)}
           handlers={this.props.handlers}

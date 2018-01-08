@@ -1,6 +1,8 @@
 .List {
   margin-bottom: 20px;
   width: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .Header {
@@ -27,6 +29,16 @@
   width: 100%;
   height: 8px;
   background: #444;
+}
+
+.TaskCreate {
+  margin-top: auto;
+}
+
+.LoadingAnimation {
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media(min-width: 801px) {
