@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 import { SortableElement, SortableHandle } from 'react-sortable-hoc';

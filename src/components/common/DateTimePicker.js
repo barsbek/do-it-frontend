@@ -3,7 +3,6 @@ import moment from 'moment';
 
 import DatePicker   from 'material-ui/DatePicker'
 import TimePicker   from 'material-ui/TimePicker';
-import RaisedButton from 'material-ui/RaisedButton';
 
 const styles = {
   Button: {
@@ -43,7 +42,6 @@ class DateTimePicker extends Component {
 
     this.props.onChange(dateTime);
   }
-
 
   render() {
     return [

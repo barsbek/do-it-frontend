@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
 import CircularProgress from 'material-ui/CircularProgress';
@@ -7,8 +6,6 @@ import IconButton from 'material-ui/IconButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 
-import Storage from '../../modules/Storage';
-import withCrud from '../hocs/withCrud';
 import withItems from '../hocs/withItems';
 import SortablePreviews from './SortablePreviews';
 
@@ -33,10 +30,9 @@ class CollectionPreviews extends Component {
 
   handleRemove(items, nextItems) {
     for(let i in items) {
-      i = parseInt(i);
+      i = parseInt(i, 10);
       const item = items[i];
       if(nextItems.indexOf(item) > -1) continue;
-
       // TODO: redirect only on current collection's removal
       if(i+1 < items.length) {
         this.props.history.push(`/collections/${items[i+1].id}`)

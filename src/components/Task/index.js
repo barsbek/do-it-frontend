@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { SortableElement, SortableHandle } from 'react-sortable-hoc';
 
 import Checkbox from 'material-ui/Checkbox';

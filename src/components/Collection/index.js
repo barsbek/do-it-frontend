@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import MediaQuery from 'react-responsive';
 
 import CircularProgress from 'material-ui/CircularProgress';
@@ -6,7 +6,6 @@ import CircularProgress from 'material-ui/CircularProgress';
 import NewListButton from '../List/AddButton';
 import SortableLists from './SortableLists';
 
-import withCrud      from '../hocs/withCrud';
 import withItems     from '../hocs/withItems';
 
 const Collection = props => [

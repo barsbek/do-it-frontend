@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import update from 'immutability-helper';
-import axios from 'axios';
-import { SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
+import { SortableElement } from 'react-sortable-hoc';
 
 import Paper            from 'material-ui/Paper';
 import Subheader        from 'material-ui/Subheader';
-import TextField        from 'material-ui/TextField';
-import Checkbox         from 'material-ui/Checkbox';
 import CircularProgress from 'material-ui/CircularProgress';
 import IconButton       from 'material-ui/IconButton';
 import ContentClear     from 'material-ui/svg-icons/content/clear';
@@ -25,9 +21,6 @@ import { isNew }        from '../../modules/helpers';
 import styles from './index.css';
 
 const STORAGE_NAME = 'list';
-const DragHandle = SortableHandle(() => 
-  <span className={styles.Sorter}></span>
-);
 
 class CollectionList extends Component {
   constructor(props) {
