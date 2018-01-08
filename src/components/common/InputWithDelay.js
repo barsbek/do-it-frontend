@@ -33,8 +33,8 @@ class InputWithDelay extends Component {
     const { onChangeStop, focus, ...rest } = this.props;
     return (
       <TextField
-        {...rest}
         style={{ width: '100%' }}
+        {...rest}
         ref={this.focusInput}
         value={this.state.value}
         onChange={this.handleChange}
