@@ -12,7 +12,7 @@ import Collection         from './Collection';
 import CollectionPreviews from './Collection/Previews';
 import withNotifiers      from './hocs/withNotifiers';
 
-import './App.css';
+import styles from './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -38,13 +38,13 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app">
-        <MediaQuery maxDeviceWidth={800}>
-          <IconButton onClick={() => this.openDrawer(true)}>
-            <NavigationMenu />
-          </IconButton>
-        </MediaQuery>
-        <MediaQuery maxDeviceWidth={800}>
+      <div>
+        <IconButton
+          className={styles.MenuIcon}
+          onClick={() => this.openDrawer(true)}>
+          <NavigationMenu />
+        </IconButton>
+        <MediaQuery maxWidth={800}>
           { matches => <Drawer 
             docked={!matches}
             disableSwipeToOpen={true}
@@ -58,16 +58,13 @@ class App extends Component {
             <CollectionPreviews notifiers={this.props.notifiers} />
           </Drawer> }
         </MediaQuery>
-
-        <div className="app-content">
-          <Route path="/collections/:id" render={props => (
-            <Collection
-              {...props}
-              withID={props.match.params.id}
-              notifiers={this.props.notifiers}
-            />
-          )} />
-        </div>
+        <Route path="/collections/:id" render={props => (
+          <Collection
+            {...props}
+            withID={props.match.params.id}
+            notifiers={this.props.notifiers}
+          />
+        )} />
       </div>
     )
   }

@@ -1,9 +1,9 @@
-.app {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.app-content {
-  flex: 1;
-  display: flex;
+@media(min-width: 800px) {
+  .App {
+    padding-left: 280px;
+  }
+
+  .MenuIcon {
+    display: none !important;
+  }
 }
