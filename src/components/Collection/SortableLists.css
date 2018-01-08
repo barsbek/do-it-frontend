@@ -1,0 +1,14 @@
+.Lists {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media(min-width: 801px) {
+  .Lists {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}

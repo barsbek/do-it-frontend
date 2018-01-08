@@ -3,8 +3,10 @@ import { SortableContainer } from 'react-sortable-hoc';
 
 import List from '../List';
 
+import styles from './SortableLists.css';
+
 const SortableLists = SortableContainer(props => (
-  <div>
+  <div className={styles.Lists}>
     { props.items.map((item, index) => (
       <List
         key={item.id}

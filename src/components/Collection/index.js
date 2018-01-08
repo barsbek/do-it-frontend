@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
+import MediaQuery from 'react-responsive';
 
 import CircularProgress from 'material-ui/CircularProgress';
 
 import NewListButton from '../List/AddButton';
+import SortableLists from './SortableLists';
+
 import withCrud      from '../hocs/withCrud';
 import withItems     from '../hocs/withItems';
-import SortableLists from './SortableLists';
 
 const Collection = props => [
   (props.loading ? 
-    <CircularProgress /> :
-    <SortableLists {...props} onSortEnd={props.handlers.onSortEnd} />
+    <CircularProgress key="collection-loading" /> :
+    <MediaQuery key="collection-lists" maxWidth={400}>
+      {matches =>
+        <SortableLists
+          {...props}
+          axis={ matches ? 'y' : 'xy' }
+          onSortEnd={ props.handlers.onSortEnd }
+        />
+      }
+    </MediaQuery>
   ),
   <NewListButton
+    key="collection-new-list"
     onClick={() => props.handlers.newItem({ title: '' })}
   />
 ]

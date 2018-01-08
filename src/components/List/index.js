@@ -22,8 +22,12 @@ import SortableTasks    from './SortableTasks';
 import Storage          from '../../modules/Storage';
 import { isNew }        from '../../modules/helpers';
 
+import styles from './index.css';
+
 const STORAGE_NAME = 'list';
-const DragHandle = SortableHandle(() => <span>:::</span>);
+const DragHandle = SortableHandle(() => 
+  <span className={styles.Sorter}></span>
+);
 
 class CollectionList extends Component {
   constructor(props) {
@@ -87,23 +91,27 @@ class CollectionList extends Component {
   render() {
     const { id, title } = this.props.item;
     return (
-      <Paper zDepth={1} className="list">
-        <Subheader style={{ paddingLeft: 0 }}>         
+      <Paper zDepth={1} className={styles.List}>
+        <Subheader className={styles.Header}>         
           <InputWithDelay
+            className={styles.Title}
             focus={isNew(id)}
             value={title}
             name="title"
+            underlineShow={false}
             onChangeStop={title => this.props.crud.change({ title })}
             fullWidth={true}
           />
-          <DragHandle />
-          <IconButton onClick={this.handleDeleteButton}>
+          <IconButton
+            className={styles.ButtonDelete}
+            onClick={this.handleDeleteButton}>
             { this.props.crud.loading ? 
               <CircularProgress size={20} thickness={2} /> :
               <ContentClear />
             }
           </IconButton>
         </Subheader>
+        <DragHandle />
           {this.props.loading && !isNew(id) ? 
             <CircularProgress /> :
             this.renderTasks()

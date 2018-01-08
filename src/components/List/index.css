@@ -1,0 +1,48 @@
+.List {
+  margin-bottom: 20px;
+  width: 300px;
+}
+
+.Header {
+  padding-left: 0 !important;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+
+.Title {
+  padding-left: 10px;
+}
+
+.Title, .ButtonDelete {
+  height: 40px !important;
+}
+
+.ButtonDelete {
+  padding: 6px !important;
+}
+
+.Sorter {
+  display: block;
+  width: 100%;
+  height: 8px;
+  background: #444;
+}
+
+@media(min-width: 801px) {
+  .List {
+    height: 300px;
+  }
+}
+
+@media(max-width: 800px) {
+  .List {
+    width: 49%;
+  }
+}
+
+@media(max-width: 400px) {
+  .List {
+    width: 100%;
+  }
+}
