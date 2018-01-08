@@ -1,10 +1,7 @@
-.App {
-  padding-top: 22px;
-}
-
 @media(min-width: 800px) {
   .App {
     padding-left: 280px;
+    padding-top: 22px;
   }
 
   .MenuIcon {
