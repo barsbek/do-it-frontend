@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
-import IconButton       from 'material-ui/IconButton';
 import Avatar           from 'material-ui/Avatar';
 import DeviceWallpaper  from 'material-ui/svg-icons/device/wallpaper';
-import ActionExit       from 'material-ui/svg-icons/action/exit-to-app';
-import CircularProgress from 'material-ui/CircularProgress';
 
 import InputWithDelay   from '../common/InputWithDelay';
+import UserLogout           from './Logout';
 
 import styles from './Info.css';
 
@@ -21,25 +19,9 @@ class UserInfo extends Component {
       avatar: this.props.user.avatar_thumb,
     }
 
-    this.handleLogout = this.handleLogout.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleAvatarClick = this.handleAvatarClick.bind(this);
     this.changeAvatar = this.changeAvatar.bind(this);
-  }
-
-  handleLogout() {
-    this.setState({ loading: true });
-    axios.delete('/api/logout')
-    .then(res => {
-      this.props.history.push('/login');
-      this.props.onLogout();
-      if(this.props.notifiers)
-        this.props.notifiers.success('Logged out');
-    })
-    .catch(err => {
-      if(this.props.notifiers) this.props.notifiers.error(err);
-      this.setState({ loading: false });
-    });
   }
 
   handleUpdate(data) {
@@ -97,15 +79,10 @@ class UserInfo extends Component {
             {email}
           </div>
         </div>
-        <IconButton
-          onClick={this.handleLogout}
-          className={styles.Logout}>
-          { this.state.loading ?
-            <CircularProgress size={20} thickness={2} /> :
-            <ActionExit />
-          }
-        </IconButton>
-
+        <UserLogout
+          onLogout={this.props.onLogout}
+          loading={this.state.loading}
+        />
       </div>
     )
   }

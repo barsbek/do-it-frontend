@@ -1,34 +1,61 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import FlatButton from 'material-ui/FlatButton';
 import url from 'url';
+
+import IconButton       from 'material-ui/IconButton';
+import ActionExit       from 'material-ui/svg-icons/action/exit-to-app';
+import CircularProgress from 'material-ui/CircularProgress';
+
+import Storage from '../../modules/Storage';
 
 class UserLogout extends Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      loading: this.props.loading
+    }
   }
 
-  handleClick(e) {
-    axios.delete("/api/logout")
+  _clearStorage() {
+    const collections = new Storage('collections').data;
+    if(!collections) return true;
+    collections.forEach(c => {
+      const storageName = `collection-${c.id}`;
+      const lists = new Storage(storageName).data;
+      if(lists) { 
+        lists.forEach(list => Storage.delete(`list-${list.id}`));
+      }
+      Storage.delete(storageName);
+    });
+    Storage.delete('collections');
+  }
+
+  handleLogout = () => {
+    this.setState({ loading: true });
+    axios.delete('/api/logout')
     .then(res => {
-      this.props.onLogout(res);
-      if(res.headers) this.handleRedirect(res.headers.location);
+      this.props.history.push('/login');
+      this.props.onLogout();
+      this._clearStorage();
     })
     .catch(err => {
-      if(this.props.onFailure) this.props.onFailure(err);
-    })
-  }
-
-  handleRedirect(toURL) {
-    const redirectTo = url.parse(toURL || '');
-    this.props.history.push(redirectTo.pathname);
+      if(this.props.notifiers) this.props.notifiers.error(err);
+      this.setState({ loading: false });
+    });
   }
 
   render() {
-    return <FlatButton onClick={this.handleClick} label="Log out"
-      style={{color: '#fff', marginTop: '6px'}} />
+    return (
+      <IconButton
+        onClick={this.handleLogout}
+        style={{ paddingLeft: 6 }}>
+        { this.state.loading ?
+          <CircularProgress size={20} thickness={2} /> :
+          <ActionExit />
+        }
+      </IconButton>
+    )
   }
 }
 
