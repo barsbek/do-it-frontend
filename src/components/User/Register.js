@@ -10,7 +10,7 @@ const UserRegister = props => (
       password_confirmation: "Password confirmation"
     }}
     button="Register"
-    url="/api/users"
+    url="/api/register"
     {...props} />
 );
 
