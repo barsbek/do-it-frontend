@@ -56,7 +56,8 @@ class UserForm extends Component {
   setErrorMessages(errors) {
     let newErrors = {};
     for(let field in this.state.errors) {
-      newErrors[field] = errors[field] ? errors[field] : "";
+      const error = errors[field] ? errors[field] : '';
+      newErrors[field] = Array.isArray(error) ? error[0] : error;
     }
     this.setState({errors: newErrors});
   }
