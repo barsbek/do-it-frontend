@@ -49,6 +49,7 @@ class App extends Component {
             disableSwipeToOpen={true}
             open={!matches || this.state.drawer}
             onRequestChange={this.openDrawer}
+            containerStyle={{zIndex: 'unset'}}
             width={280} >
             <UserInfo user={this.props.user}
               onLogout={this.props.onLogout}
