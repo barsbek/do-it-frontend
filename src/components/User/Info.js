@@ -6,7 +6,7 @@ import Avatar           from 'material-ui/Avatar';
 import DeviceWallpaper  from 'material-ui/svg-icons/device/wallpaper';
 
 import InputWithDelay   from '../common/InputWithDelay';
-import UserLogout           from './Logout';
+import UserLogout       from './Logout';
 
 import styles from './Info.css';
 

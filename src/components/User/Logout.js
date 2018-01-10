@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import url from 'url';
 
 import IconButton       from 'material-ui/IconButton';
 import ActionExit       from 'material-ui/svg-icons/action/exit-to-app';

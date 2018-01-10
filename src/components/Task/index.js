@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SortableElement, SortableHandle } from 'react-sortable-hoc';
+import { SortableElement } from 'react-sortable-hoc';
 
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
