@@ -6,6 +6,7 @@ import styles from './DragHandle.css';
 
 const DragHandle = SortableHandle(props => {
   const className = classNames({
+    [styles.normal]: !props.disabled,
     [styles.disabled]: props.disabled,
     [props.className]: !!props.className
   });
