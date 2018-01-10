@@ -2,6 +2,7 @@ import React from 'react';
 import { SortableContainer } from 'react-sortable-hoc';
 
 import Task from '../Task';
+import { isNew } from '../../modules/helpers';
 
 const SortableTasks = SortableContainer((props) =>
   <div style={{ overflowY: 'auto', overflowX: 'hidden' }}>
@@ -9,6 +10,7 @@ const SortableTasks = SortableContainer((props) =>
       <Task
         key={item.id}
         index={index}
+        disabled={isNew( item.id )}
         item={item}
         moved={item.moved}
         handlers={props.handlers}

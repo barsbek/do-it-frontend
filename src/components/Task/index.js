@@ -9,12 +9,9 @@ import CircularProgress from 'material-ui/CircularProgress';
 import InputWithDelay from '../common/InputWithDelay';
 import withCrud from '../hocs/withCrud';
 import { isNew } from '../../modules/helpers';
+import DragHandle from '../common/DragHandle';
 
 import styles from './index.css';
-
-const DragHandle = SortableHandle(
-  () => <span className={styles.Sorter}>::</span>
-); 
 
 class Task extends Component {
   componentWillReceiveProps(nextProps) {
@@ -40,7 +37,9 @@ class Task extends Component {
     const { id, completed, title } = this.props.item;
     return (
       <div className={styles.Task}>
-        <DragHandle />
+        <DragHandle disabled={isNew( id )}>
+          ::
+        </DragHandle>
         <Checkbox
           style={{ width: 'auto' }}
           iconStyle={{ marginRight: 4 }}

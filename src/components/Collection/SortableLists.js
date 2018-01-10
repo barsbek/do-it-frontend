@@ -4,6 +4,7 @@ import { SortableContainer } from 'react-sortable-hoc';
 import List from '../List';
 
 import styles from './SortableLists.css';
+import { isNew } from '../../modules/helpers';
 
 const SortableLists = SortableContainer(props => (
   <div className={styles.Lists}>
@@ -11,8 +12,8 @@ const SortableLists = SortableContainer(props => (
       <List
         key={item.id}
         index={index}
+        disabled={isNew( item.id )}
         withID={item.id}
-        // moved should be passed via item
         moved={item.moved}
         item={{...item, collection_id: props.withID}}
         handlers={props.handlers}

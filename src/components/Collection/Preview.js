@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { withRouter } from 'react-router-dom';
-import { SortableElement, SortableHandle } from 'react-sortable-hoc';
+import { SortableElement } from 'react-sortable-hoc';
 
 import InputWithDelay from '../common/InputWithDelay';
 import DateTimePicker from '../common/DateTimePicker';
 import PreviewAction  from '../Collection/PreviewAction' ;
+import DragHandle     from '../common/DragHandle';
 import withCrud       from '../hocs/withCrud';
 import Storage        from '../../modules/Storage';
 import { isNew }      from '../../modules/helpers';
 
 import styles from './Preview.css';
-
-const DragHandle = SortableHandle(() => <span className={styles.Sorter}>::</span>);
 
 class CollectionPreview extends Component {
   componentWillUnmount() {
@@ -63,7 +62,9 @@ class CollectionPreview extends Component {
             onDelete={() => this.props.crud.delete(this.props.item)}
             onFollow={() => this.props.history.push(`/collections/${id}`)}
           />
-          <DragHandle />
+          <DragHandle className={styles.DragHandle} disabled={isNew( id )}>
+            ::
+          </DragHandle>
         </div>
       </div>
     )
